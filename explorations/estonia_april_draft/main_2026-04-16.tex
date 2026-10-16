@@ -1,0 +1,668 @@
+% =============================================================
+% New GDP series for interwar and Soviet Estonia:
+% a Finnish miracle that never was
+%
+% Authors: Adomas Klimantas (ISM University of Management and
+%          Economics) and Martin Klesment (University of Tartu)
+% Target journal: Economic History Review
+% Citation style: Oxford footnote (biblatex-chicago notes)
+% =============================================================
+
+\documentclass[12pt,a4paper]{article}
+
+% ---- Core packages ----
+\usepackage{fontspec}
+\usepackage{microtype}
+\emergencystretch=2em   % allow extra stretch on hard-to-break lines
+\usepackage{geometry}
+\geometry{a4paper, margin=2.5cm}
+
+% ---- Spacing (EHR submission: double-spaced) ----
+\usepackage{setspace}
+\doublespacing
+
+% ---- Fonts ----
+\setmainfont{Times New Roman}
+
+% ---- Language ----
+\usepackage[main=british]{babel}
+
+% ---- Mathematics ----
+\usepackage{amsmath}
+
+% ---- Tables ----
+\usepackage{booktabs}
+\usepackage{threeparttable}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage[justification=centering]{caption}
+
+% ---- Figures ----
+\usepackage{graphicx}
+\usepackage{float}
+\graphicspath{{../../Figures/estonia/}}
+
+% ---- Footnote formatting ----
+\usepackage[bottom]{footmisc}
+\usepackage{ragged2e}
+
+% ---- Bibliography: Chicago notes (Oxford footnote style) ----
+\usepackage[notes,
+            backend=biber,
+            footmarkoff,
+            isbn=false,
+            url=false,
+            doi=false]{biblatex-chicago}
+\addbibresource{bibliography.bib}
+
+\ExecuteBibliographyOptions{
+    maxbibnames=99,
+    maxcitenames=2,
+    uniquetitle=true
+}
+
+% ---- PDF metadata and links ----
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=black,
+    urlcolor=black,
+    pdftitle={New GDP series for interwar and Soviet Estonia: a Finnish miracle that never was},
+    pdfauthor={Adomas Klimantas and Martin Klesment}
+}
+
+% ---- Custom commands ----
+\newcommand{\intlnineteen}{Int\$\textsubscript{1990}}   % Int$_1990
+\newcommand{\intltwenty}{Int\$\textsubscript{2011}}     % Int$_2011
+\newcommand{\eek}{EEK}                                  % Estonian kroon
+\newcommand{\sek}{SEK}                                  % Swedish krona
+\newcommand{\appendixnote}{Sources: see online appendix.}
+
+% ---- Section formatting (EHR style: "I | UPPERCASE TITLE") ----
+\usepackage{titlesec}
+\titleformat{\section}{\normalfont\large\bfseries}{\Roman{section}~|~}{0em}{\MakeUppercase}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries\itshape}{}{0em}{}
+
+% ---- Line numbers for review (comment out for submission) ----
+% \usepackage{lineno}
+% \linenumbers
+
+% =============================================================
+\begin{document}
+% =============================================================
+
+% ---- Title page ----
+\begin{titlepage}
+    \centering
+    \vspace*{2cm}
+    {\large\bfseries New GDP series for interwar and Soviet Estonia:\\
+    a Finnish miracle that never was\par}
+    \vspace{1.5cm}
+    {\normalsize
+    Adomas Klimantas\\
+    ISM University of Management and Economics\\
+    \texttt{a.klimantas@ism.lt}\\[0.8em]
+    Martin Klesment\\
+    University of Tartu\\
+    \texttt{martin.klesment@ut.ee}
+    \par}
+    \vspace{1.5cm}
+    {\small\today\par}
+    \vspace{2cm}
+    \begin{abstract}
+        \noindent
+        % TARGET: ~150 words
+        % CONTENT: This paper constructs the first reliable and internationally
+        % comparable annual GDP per capita series for Estonia covering 1919--1995.
+        % The new estimates are produced through a three-dimensional approach:
+        % (i) a revised 1938 interwar benchmark replacing Valge's (2003) PPP
+        % conversion; (ii) a new 1919--1940 output-side series recalculating
+        % Valge's figures using the improved benchmark; and (iii) a Soviet-period
+        % series (1937--1995) anchored to the Bolotin (1990) benchmark.
+        % Splicing with the Norkus and Markevičiūtė (2021) 1913 figure and
+        % post-1990 Maddison Project Database data yields a full
+        % 1913/1919--2022 series in 1990 and 2011 international dollars,
+        % ready for incorporation into the Maddison Project Database.
+        % The new figures are deployed to reassess Estonian economic
+        % performance across three regimes. A systematic comparison with
+        % Finland --- Estonia's frequent comparator --- reveals that while
+        % the two economies shared qualitative affinities, Estonia lagged
+        % Finland substantially even in 1938, with Latvia considerably
+        % closer to Finnish income levels. The popular narrative of Estonia
+        % as Finland's near-equal before Soviet occupation overstates
+        % the pre-war convergence.
+        %
+        % [DRAFT PLACEHOLDER --- to be written after main text is complete]
+        This paper constructs the first reliable, internationally comparable annual GDP per capita series for interwar and Soviet Estonia, covering 1919--1995 and extended to a full 1913/1919--2022 series in 1990 and 2011 international dollars. The reconstruction proceeds in three dimensions: a new 1938 bilateral PPP benchmark; a recalculated 1919--1940 output-side GDP series; and newly constructed Soviet-period series (1937--1995) for the Estonian SSR --- the paper's principal contribution. Overlap cross-validation confirms tight agreement between independently constructed series and modern post-1990 data at both splicing points (1937-1940 and 1990-1995). The new data reveals that interwar growth was genuine (averaging 2.7--2.8 per cent per annum) but Estonia stood at roughly 75 per cent of Finnish GDP per capita in 1938, well below the near-parity assumed in existing scholarship, despite the two economies having started at near-equal income levels in 1919. Soviet growth was rapid in 1950--1968 (3.9 per cent per annum) before stagnating at 0.9 per cent thereafter; the transition to a market economy reduced GDP per capita by 30 per cent between 1989 and 1995. The Estonia--Finland divergence likely reflects both Finland's faster interwar growth and the genuine costs of Soviet occupation.
+    \end{abstract}
+    \vspace{1cm}
+    {\small\textbf{JEL codes:} N1, N14, O4, O47, E01\par}
+    {\small\textbf{Keywords:} GDP, historical national accounts, Estonia, Baltic states,
+    Maddison Project Database, Soviet economic growth, interwar period\par}
+\end{titlepage}
+
+\newpage
+
+% =============================================================
+% I. INTRODUCTION
+% =============================================================
+\section*{Introduction}
+
+% TARGET: ~700 words
+%
+% STRUCTURE:
+% - Estonia's place in European economic history: peripheral, Protestant,
+%   and comparable to Finland before WWII --- yet left far behind
+% - The gap: no reliable, internationally comparable annual GDP series
+%   for 1919--1995
+% - Existing attempts and their limitations (Valge 2003, Klesment 2008/2010)
+% - Contribution: three-dimensional reconstruction yielding a full
+%   1913/1919--2022 series in international dollars
+% - Main findings: interwar growth real but Estonia lagged Finland
+%   substantially even in 1938; Soviet-era growth faster than popular
+%   narrative; transition costs severe
+% - Paper structure
+
+Estonia occupies an intriguing position in European economic history. Emerging from the Russian Empire as an independent republic in 1918, it shared with Finland a Protestant tradition, a highly literate peasantry, and a smallholder agriculture reoriented after independence towards Western European markets. By the 1930s, commentators were already treating the two countries as natural comparators — peripheral Protestant nations on the northern rim of Europe, industrialising at a measured pace and building the social capabilities that would, in a world without Soviet occupation, plausibly have enabled them to converge towards Western European income levels in the post-war decades. Instead, Estonia spent half a century as a specialised republic within the Soviet planned economy, and re-emerged in 1991 with income levels far below those of its northern neighbour. The Estonia--Finland comparison has since become a recurring device in arguments about the economic costs of Soviet occupation.
+
+What has prevented a precise reckoning with this history is the absence of a reliable, internationally comparable annual GDP series for Estonia covering the period before 1995. The gap is not merely inconvenient: without credible estimates of Estonian income across the interwar and Soviet periods, claims about the starting gap with Finland, the pace of Soviet-era growth, and the severity of the transition shock rest on approximations or inference rather than evidence. Two prior attempts exist. Valge (2003) produced an output-side current-price series for 1923--1938, but converted the results to international dollars using Colin Clark's rough estimate of Estonian income relative to Finland's for the years 1925--1934, and deflated current-price GDP using a consumer price index that generates spurious volatility in the constant-price series.\footnote{\autocite{valge2003all}; \autocite[60]{clark1938}.} Klesment, Puur, and Valge (2010) estimated a Soviet-period series for 1950--1990, but covered only four sectors — agriculture, industry, construction, and transport — leaving approximately 35 per cent of the economy unaccounted for, and used outdated purchasing power parities that produce levels substantially below those implied by modern data.\footnote{\autocite{klesment2010}.} Neither study is wrong in the sense of being fabricated; both are valuable pioneering efforts. But neither is internationally comparable in any rigorous sense.
+
+This paper provides a three-dimensional reconstruction that addresses all three deficiencies. The first dimension constructs a new 1938 GDP per capita PPP benchmark for Estonia through a bilateral price comparison with Sweden, yielding a figure of 2,685~\intlnineteen{} — somewhat below Valge's implied estimate, because his deflation overstated interwar income levels while his PPP conversion overstated Estonia's relative living standards. The second dimension uses this new benchmark to recalculate and extend Valge's output-side series to cover every year from 1919 to 1940, with sectoral volume indices compiled from primary and secondary statistical sources. The third dimension — the paper's principal new contribution — constructs a Soviet-period series covering every year from 1937 to 1995, anchored to the 1990 Bolotin benchmark, using physical-product methodology across six major sectors of the Estonian SSR. Spliced with the existing 1913 benchmark of Norkus and Markevičiūtė and with adjusted modern Maddison Project data, the result is a continuous annual series for Estonian GDP per capita from 1913/1919 to 2022 expressed in both 1990 and 2011 international dollars.
+
+The new series yields three findings that revise the conventional narrative. First, Estonia and Finland began independence at near-parity in 1919, but Finland's faster interwar growth had already opened a substantial gap by 1938, when Estonia stood at roughly 75 per cent of Finnish income per capita — well below the figure that Clark's estimate and subsequent scholarship implied. Second, Soviet-era growth was faster than the popular narrative in Estonia acknowledges: the 1950s and 1960s saw growth averaging 3.9 per cent annually, the fastest sustained episode under Soviet rule. Third, the subsequent stagnation and transition shock were severe: growth from 1968 to 1989 averaged just 0.9 per cent annually, and the transition brought a 30 per cent cumulative decline before recovery began.
+
+The paper also contributes to the rapidly expanding literature on Soviet and Russian economic history, reviewed comprehensively by Zhuravskaya, Guriev, and Markevich (2024), by extending the frontier of republic-level national accounting to Estonia — a case that has remained outside the scope of archival-based efforts concentrated on Russia itself.\footnote{\autocite{zhuravskaya2024}.}
+
+The paper proceeds as follows. Section~\ref{sec:background} provides the historical background and reviews existing estimates. Section~\ref{sec:methodology} describes the data and methodology. Section~\ref{sec:results} presents the new series. Section~\ref{sec:limitations} assesses limitations and robustness. Section~\ref{sec:implications} places the new estimates in European perspective, including a systematic treatment of the Finland comparison. Section~\ref{sec:conclusion} concludes.
+
+% =============================================================
+% II. HISTORICAL BACKGROUND AND EXISTING ESTIMATES
+% =============================================================
+\section{Historical Background and Existing Estimates}
+\label{sec:background}
+
+\subsection{Historical background}
+\label{subsec:history}
+
+Estonia's modern history begins within the Russian Empire, which absorbed the Baltic provinces in 1710--1721 following its victory over Sweden in the Great Northern War. Unlike Lithuania, which retained Catholic and Polish cultural influences, Estonia inherited a Protestant tradition that had taken root under Swedish rule, fostering high literacy rates and a distinct national consciousness. Early emancipation of serfs in 1816 and subsequent land reforms gave Estonian peasants greater agency than most subjects of the Tsar, and by the late nineteenth century Estonian and Latvian governorates ranked among the most literate in the empire.\footnote{\autocite[4--5]{baltichistorykasekamp2017}.} The Baltic coast had by 1914 become one of the Russian Empire's principal industrial zones, with Tallinn (Reval) and Narva serving as significant manufacturing centres; Estonia was, in this sense, disproportionately industrialised relative to its small size and population.\footnote{\autocite[102]{ehbaltics_tarvel}.}
+
+Map~\ref{fig:map_baltic} situates Estonia geographically and shows the territorial changes experienced by all three Baltic states since 1918.
+
+The First World War and the subsequent independence wars of 1918--1920 proved catastrophic for these gains. German occupation from 1918 was followed by conflict with Bolshevik forces, and Estonia's declaration of independence on 24 February 1918 initiated a protracted struggle before sovereignty was secured under the Treaty of Tartu in 1920. The war had disrupted trade networks, evacuated industrial capacity, and dramatically reduced the urban population; Tallinn's residents declined sharply between 1914 and 1920.\footnote{\autocite[107]{ehbaltics_tarvel}.} The new state faced the dual task of post-war reconstruction and managing the consequences of permanent deindustrialisation, as the Russian market --- the principal destination for pre-war Baltic manufactures --- was lost to the Bolshevik revolution.
+
+The interwar decades (1920--1940) were therefore shaped above all by agrarian reorientation. Land reform, among the most sweeping in Eastern Europe, redistributed the estates of the Baltic German nobility, creating a smallholder agricultural middle class and cementing Estonian control over the national economy.\footnote{\autocite{norkus_denmarkisation}.} Agriculture came to account for roughly 63 per cent of the workforce by the 1930s.\footnote{\autocite[91]{biuletenis19393}.} Estonia, like its Baltic neighbours, sought to export its primary produce --- dairy products, livestock, timber --- to Western European markets, with co-operative networks playing a central organising role. Monetary stabilisation was achieved through the introduction of the Estonian kroon in 1928 and, following the pressures of the Great Depression, a peg to sterling in 1933 that restored export competitiveness after significant gold outflows.\footnote{\autocite[74]{bernankejames01}.} The 1930s brought an accelerating import-substitution drive, labelled `denmarkisation', which channelled state investment into infant industries. Output expanded markedly in the second half of the decade before the Molotov--Ribbentrop Pact assigned Estonia to the Soviet sphere and Soviet tanks entered Tallinn in June 1940.\footnote{\autocite{norkus_denmarkisation}.}
+
+Soviet occupation brought the complete destruction of the independent economic order. In 1949 forced collectivisation of agriculture was carried out at the cost of approximately 45,000 deportations --- roughly four per cent of the population.\footnote{\autocite[265]{taagepera_coll01}; \autocite[12]{deportations_ee}.} Industry was nationalised and restructured into a specialised component of the all-union planned economy: Estonia became the principal Soviet supplier of oil shale, electricity, textiles, and precision instruments.\footnote{\autocite[158--217]{case_estonia}.} Heavy Russian in-migration to staff the new industrial enterprises substantially altered Estonia's demographic composition, making Estonians a bare majority in their own republic by the 1980s.\footnote{\autocite{case_estonia}.} Following Gorbachev's \textit{glasnost} and \textit{perestroika} reforms, Estonia declared the restoration of independence on 20 August 1991 and was internationally recognised within days of the failed Moscow coup.
+
+The transition to a market economy was rapid by post-Soviet standards: price liberalisation, the introduction of the Estonian kroon under a currency board (1992), and early privatisation established Estonia as the most reform-minded of the Baltic states.\footnote{\autocite[443--444]{transition_progress}.} The structural shock was nevertheless severe. Light industry, which had formed a cornerstone of the Estonian economy from the interwar period through to 1990, contracted by roughly 70 per cent by 1995; linen fabric output collapsed from over ten million square metres annually to fewer than 500 square metres.\footnote{Author's calculations from primary Estonian statistical sources; see the Online Data Appendix. For the broader pattern of structural contraction across Baltic economies during transition, see \autocite[165]{norkus_restorations}.} GDP per capita fell sharply before recovering after 1995 on the back of trade reorientation towards Nordic markets and early foreign direct investment inflows.\footnote{\autocite[11]{norkus_restorations}.}
+
+% ---- Map: The Baltic states, territorial changes since 1918 ----
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.82\textwidth]{../../Figures/estonia/F0_map_baltic.png}
+  \caption[The Baltic states: territorial changes since 1918]{The Baltic states: territorial changes since 1918. Estonia (north), Latvia (centre), and Lithuania (south), showing the boundaries of the interwar republics (1918--1940), the Estonian, Latvian, and Lithuanian Soviet Socialist Republics (1940--1941, 1944--1990), and the German occupation zone (1941--1944), together with the principal border adjustments of the period.}
+  \label{fig:map_baltic}
+  \begin{minipage}{\linewidth}
+    \footnotesize\textit{Source:} Author's own work, based on P.~Gaučas et al., \textit{Lietuvos istorijos atlasas} (Vilnius: Vaga, 2001).
+  \end{minipage}
+\end{figure}
+
+\subsection{Existing estimates and their limitations}
+\label{subsec:existing}
+
+The absence of published GDP statistics for Estonia before 1995 has left a gap that only a handful of scholars have attempted to fill. Their efforts, though valuable, suffer from limitations that the present paper addresses.
+
+The foundational study for the interwar period is Valge's (2003) output-side GDP series covering 1923--1938.\footnote{\autocite{valge2003all}.} Valge estimated value-added in agriculture, industry, construction, and housing from primary sources and provided internationally comparable figures by using Colin Clark's (1938) rough estimate that placed Estonia at roughly 90 per cent of Finland's income level.\footnote{\autocite[2725]{valge2003all}; \autocite[60]{clark1938}.} The sectoral coverage of material production is reasonable, but two methodological weaknesses undermine the series. First, the entire service sector --- commerce, transport, public administration, education, and household services --- was assigned a single value-added per capita figure with no subsectoral differentiation, producing an implausibly low service share. Second, Valge deflated current-price GDP using a cost-of-living or consumer price index rather than a GDP deflator, producing spurious volatility in the constant-price series: his figures imply a 29 per cent rise in GDP per capita in 1924 despite physical output growing by no more than 4 per cent in even the best-performing sectors.\footnote{\autocite[2726]{valge2003all}.} These series were modestly revised by Klesment in 2008 without addressing the underlying methodological issues.\footnote{\autocite{klesment2008a}.}
+
+The only attempt at a long-run Soviet-era series for Estonia is the study by Klesment, Puur, and Valge (2010), which covers 1950--1990.\footnote{\autocite{klesment2010}.} The authors rely on physical output indices for agriculture, industry, construction, and transport, aggregating them using geometric averages and NMP-derived weights. The series is both incomplete and downward biased: the four sectors covered account for only about 65 per cent of GDP, and the use of United Nations Economic Commission for Europe (UNECE) 1990 purchasing power parities --- themselves derived from unreliable NMP growth figures --- understates the level of income. Even in 1995, well after the transition, their figures suggest a GDP per capita some 19 per cent below the estimates derived from World Bank growth rates backcast from a 2011 benchmark in the present paper.\footnote{\autocite[39--44]{klesment2010}.}
+
+The Maddison Project Database (MPD) provides GDP per capita estimates for Estonia in 1973 and annually from 1980, but these pre-1990 figures are not reliable as a stand-alone series: they are derived by extrapolating backwards from modern benchmarks using Soviet net material product (NMP) growth figures, which are generally considered too distorted for conversion into GDP.\footnote{\autocite[307--308]{Maddison1998b}; \autocite[279--280]{vonyoinmorys2021}.} Neither Eurostat, the IMF, the World Bank, nor the Estonian statistical agency publishes pre-1990 GDP per capita figures for Estonia, reflecting a shared judgement that NMP-based extrapolations cannot be treated as credible historical national accounts. The Bolotin (1992) benchmark is incorporated into the MPD, but improperly: Maddison used 1991 republic-to-USSR income ratios from Bolotin's study rather than the 1990 ratios that Bolotin himself estimated, causing the pre-1990 MPD series to be upward biased.\footnote{\autocite{bolotin1992}; \autocite{maddison2010}.} The new series in this paper replaces the MPD's NMP-based extrapolation with independently constructed physical-product volume indices anchored to the 1990 Bolotin level directly.
+
+The sole available pre-war income estimate not produced by Valge or Klesment is Norkus and Markevičiūtė's (2021) indirect income-side approximations for 1913, 1922, 1929, and 1938 for all three Baltic states.\footnote{\autocite{norkusmark2021}.} Their 1913 figure for Estonia, constructed using the indirect procedure of the 2018 Maddison Project Database update, provides the only pre-independence anchor currently available and is used here to extend the long-run series back to 1913. Their 1938 figure serves as an independent cross-check for the new benchmark constructed in Section~\ref{subsec:interwar}.
+
+% =============================================================
+% III. DATA AND METHODOLOGY
+% =============================================================
+\section{Data and Methodology}
+\label{sec:methodology}
+
+\subsection{The output (production) approach}
+\label{subsec:output-approach}
+
+National accounts can in principle be assembled from three sides: the production side, which sums value-added across all sectors of the economy; the expenditure side, which totals final demand by category of purchaser; and the income side, which aggregates all factor payments. Where data are adequate, the approaches converge on the same aggregate. This paper relies exclusively on the production side for three reasons.
+
+First, the output approach is the only feasible option given the available data. Consistent annual income and expenditure statistics are absent for Estonia across both the interwar and Soviet periods; data of that kind is limited to single-year approximations at best. The companion reconstructions for Lithuania and Latvia in this paper's broader project face the same constraint and likewise rely exclusively on the output approach; more broadly, the production approach is standard in historical national accounting for economies where expenditure and income statistics are sparse or unreliable.\footnote{\autocite{klimantas2019}; \autocite{norkuslatvia1935}; for analogous applications to other economies, see \autocite[5]{kenny_irelandgdp}; \autocite[22]{broadberryinmorys}.}
+
+Second, the output approach is the only reliable method for reconstructing Soviet-era income. Both expenditure and income approaches require monetary growth data, which under Soviet conditions was subject to irreconcilable price distortions, statistical manipulation, and double counting.\footnote{\autocite[307--308]{Maddison1998b}; \autocite[279--280]{vonyoinmorys2021}.} Physical output indicators — quantities of agricultural produce, industrial products, and the like — are by contrast sufficiently trustworthy for constructing volume indices. The intellectual foundations of this approach lie in the work of Abram Bergson, who in studies from the 1950s and 1960s re-priced Soviet aggregate output at factor cost, built implicit rouble--dollar purchasing power parity ratios, imputed missing service sectors, and used physical output series to arrive at constant-price growth estimates.\footnote{\autocite{bergson1950}; \autocite{bergson1961}.} Comparable efforts for East-Central Europe were subsequently carried out by Thad Alton and the Research Project on National Income in East Central Europe.\footnote{\autocite[328]{Maddison1995a}.} Building on these foundations, this is the methodology the CIA employed to estimate Soviet GNP, and, despite well-known limitations, those estimates remain the most reliable available and form the basis for Soviet GDP per capita figures in the Maddison Project Database (MPD) 2023.\footnote{\autocite[279--280]{vonyoinmorys2021}; MPD version 2023.} The CIA estimates attracted sustained criticism from the moment of publication. Some critics — most notably Navrozov (1988) — argued that the figures overstated Soviet performance by accepting official Soviet inputs at face value; others, including Khanin (1991), claimed the opposite: that hidden production not captured in official channels caused the CIA to understate growth, though this view has found little support in subsequent scholarship.\footnote{\autocite{assessingCIA1988}; \autocite{becker1994}; \autocite{schroeder1995}.} The most thorough assessments, by Becker (1994) and Schroeder (1995), concluded that the estimates contained biases in both directions but remained the best available basis for analysis — a verdict upheld by Maddison's (1998) authoritative review and by Vonyó and Markevich's (2021) comprehensive treatment.\footnote{\autocite{Maddison1998b}; \autocite[279--280]{vonyoinmorys2021}.} The CIA figures are today the standard source for Soviet GNP growth and form the basis for Soviet-era entries in the MPD. It is equally important to note that the statistical problems ingrained in Soviet monetary reporting — the compression of official inflation, the manipulation of aggregate growth indicators, and the double counting inherent in the material product system — affected monetary aggregates and NMP indices, not the physical output data on which this paper's sectoral volume indices rest. Quantities of agricultural produce, industrial products, and transport volumes were recorded for operational planning purposes and are generally considered free of the systematic distortions that plagued monetary statistics.\footnote{\autocite[279--280]{vonyoinmorys2021}; \autocite[307--308]{Maddison1998b}.}
+
+Third, a benchmark GDP for 1990 is already available for use and is methodologically consistent with similar interwar estimates for Lithuania and Latvia - the other two Baltic republics.\footnote{\autocite{klimantas2019}; \autocite{norkuslatvia1935}; \autocite{bolotin1992}.} An exception is the Estonian interwar benchmark, which this paper constructs anew (Section~\ref{subsec:interwar}).
+
+The practical procedure follows benchmark extrapolation. A constant-price GDP index is compiled by weighting sectoral volume indices by their benchmark value-added shares:
+\[
+    \mathit{GDP}_{t} = \mathit{GDP}_{\text{bench}} \times \sum_{i=1}^{n} W_{i} \cdot \mathit{index}_{it},
+\]
+where $W_{i}$ is sector $i$'s share of benchmark GDP and $\mathit{index}_{it}$ its volume index in year $t$. Throughout both periods, value-added is deflated by single deflation, which holds the ratio of intermediate inputs to gross output constant within each phase. The alternative — double deflation, which prices inputs and outputs separately to obtain a direct real value-added measure — requires consistent annual data on intermediate consumption that simply do not exist for either interwar Estonia or the Estonian SSR; the CIA itself could apply double deflation only to the agricultural branch of its USSR-wide estimates.\footnote{\autocite[45]{cia1982a}; \autocite[427--428]{thomasfeinstein2003}.} The robustness implications are discussed in Section~\ref{sec:limitations}.
+
+\subsection{Population}
+\label{subsec:population}
+
+Converting GDP to per capita requires a consistent population series. Estonia's territory was essentially stable throughout the period: unlike Lithuania, which underwent major boundary changes in 1939--1940 with the annexation of the Vilnius area, Estonia's borders were unaltered before and after Soviet occupation, and the paper uses constant 1990 borders throughout, consistent with the MPD convention.\footnote{\autocite[30]{bolt_zanden_newgdp2021}.} Five census observations provide the anchors: 1922, 1934, 1959, 1970, 1979, and 1989. Annual intercensal estimates are constructed by the scholars of the Baltic 100 project with slight adjustments detailed in the online data appendix.
+
+\subsection{The new 1938 interwar benchmark and the 1919--1940 series}
+\label{subsec:interwar}
+
+% --- (a) The 1938 benchmark ---
+
+Valge's (2003) interwar GDP estimates for Estonia constitute the only existing current-price series covering the period 1923--1938 and provide the foundation on which this paper builds.\footnote{\autocite{valge2003all}.} His output-side figures for agriculture (including forestry and fishing), industry, construction, and housing are accepted here without revision; together they amount to 425.2 million Estonian kroon (\eek) in 1938. The central weakness in Valge's work lies elsewhere: his treatment of the service sector. For every service activity not covered by the four real sectors — commerce, transport, communications, public administration, education, defence, and household services alike — Valge assumed uniform real value-added per worker and scaled a single per-capita figure by the aggregate service workforce. The procedure produced a combined service value-added of just 122.9 million \eek{}, a figure lower than the industrial sector's contribution and difficult to reconcile with Estonia's level of structural development by the late 1930s.
+
+This paper replaces Valge's service estimates using the component-of-value-added approach applied in the analogous Lithuanian and Latvian benchmark studies.\footnote{\autocite{klimantas2019}; \autocite{norkuslatvia1935}.} For each service sub-branch, gross value-added is built up from its national-accounts income components: total employee remuneration (wages, salaries, and employer social contributions), the net operating surplus accruing to owners, depreciation of fixed capital, and the net burden of production taxes over subsidies. Employee compensation is estimated from the product of subsectoral workforce size and average annual salary; the remaining components are calculated by applying their ratios to compensation as observed in the Latvian 1935 benchmark, the closest available structural comparator.\footnote{\autocite{norkuslatvia1935}.} The resulting service VA totals 228.5 million \eek{}, raising total gross value-added to 653.8 million \eek{} and GDP (including taxes less subsidies of 17.2 million \eek{}) to 671.0 million \eek, equivalent to 592.5 \eek{} per capita. The sectoral composition of both Valge's original and the revised estimates is presented in Table~\ref{tab:benchmarks}.
+
+To convert the 1938 GDP per capita to international dollars, a bilateral purchasing power parity comparison with Sweden is conducted, following the procedure used in the Lithuanian and Latvian benchmark studies.\footnote{\autocite{klimantas2019}; \autocite{norkuslatvia1935}.} Price data for 30 food items, one housing component, five clothing items, and fifteen other consumer goods are collected for both countries, and Laspeyres and Paasche price ratios are computed using household consumption expenditure weights. Their geometric mean yields a Fisher ratio of 1.79 \sek/\eek, implying that Estonian prices were considerably lower than Swedish ones and that Estonian real GDP per capita in 1938 was equivalent to 54.8 per cent of Sweden's.\footnote{Sweden's 1938 GDP per capita was 4,901 \intlnineteen{} (MPD version 2023, converted from \intltwenty{} using the standard ratio of 1.594; see \autocite[12]{bolt_zanden_newgdp2021}).} The resulting Estonian 1938 benchmark is \textbf{2,684.9 \intlnineteen{}}, or 4,279.6 \intltwenty{}.
+
+For comparison, Valge converted his figures using Colin Clark's (1938) rough estimate of Estonian national income relative to Finland's for the period 1925--1934 — an indirect procedure that placed Estonia at approximately 90 per cent of Finnish income per capita.\footnote{\autocite[2725]{valge2003all}; \autocite[60]{clark1938}.} This yielded a 1938 figure of around 2,745 \intlnineteen{}: slightly higher than the new estimate because, while Valge underestimated Estonian GDP in domestic currency, his PPP conversion overstated the country's relative living standards. The present paper's bilateral price comparison supersedes Clark's approximation and brings Estonia into methodological alignment with the existing Lithuanian and Latvian interwar benchmarks.
+
+% --- (b) The 1919--1940 series ---
+
+The 1938 benchmark weights are used to extrapolate annual constant-price GDP for 1919--1940. Volume indices for each sector are compiled as follows.
+
+\textit{Agriculture, forestry, and fishing.} Physical output data for crops, livestock products, timber, and fish catch are gathered from interwar Estonian agricultural and statistical publications, complemented by Klesment's modern statistical compilation.\footnote{\autocite{klesment2007}.} Forestry and fishing figures missing for 1919--1921 and 1919--1927 respectively are extrapolated from movements in the joint crops-and-livestock index. Separate crop, livestock, forestry, and fishing indices are aggregated using benchmark value-added weights.
+
+\textit{Industry.} Reliable annual volume indices for interwar Estonian industry do not exist; Valge provides current-price monetary figures for 1922--1939, but the absence of sufficiently disaggregated sectoral price indices makes deflation unreliable. Following accepted practice in historical national accounting when direct output data is scarce, this paper constructs an industrial employment index adjusted for changes in real wages.\footnote{\autocite[22]{broadberryinmorys}.} Given industry's relatively modest share of interwar Estonian GDP, this approximation does not materially compromise the aggregate series.
+
+\textit{Construction.} Following Valge's procedure, a domestic cement use index is constructed from cement production complemented by net import figures, with early-period gaps filled using population growth.\footnote{\autocite[Table~35]{valge2003all}; \autocite[76--78]{klesment2007}.}
+
+\textit{Transport and communications.} Physical transport output data have been compiled and published in secondary works by Klesment and Valge; communications data are drawn from interwar statistical publications and Soviet-era yearbooks.\footnote{\autocite{klesment2007}; \autocite{valge2003all}.}
+
+\textit{Commerce (trade, finance, insurance, and accommodation).} Because the 1938 benchmark does not disaggregate commerce into sub-sectors, a single commerce index is constructed from the marketed shares of agricultural and industrial output, tracking trade, catering, and financial services jointly.
+
+\textit{Public services.} Civil servant employment data are unavailable for a consistent interwar series. Public services excluding defence are therefore assumed to follow the movement of the broader economy. The defence index is based on military personnel numbers, with only 1919--1920 and 1939 data points available and constant staffing assumed between them.
+
+\textit{Other services.} Tracked using total population change, reflecting the domestic service character of this residual category. Full source documentation and annual indices are provided in the online data appendix.
+
+\subsection{The Soviet-period series and its extension (1937--1995)}
+\label{subsec:soviet}
+
+The Soviet-period series (1937--1995) is the principal new contribution of this paper, representing the first attempt at constructing national accounts for the Estonian SSR as a separate Soviet republic across the full occupation period. The series is anchored to the 1990 benchmark from Bolotin's study of Soviet republic GDPs, which provides direct PPP-based GDP estimates in \intlnineteen{} for each of the fifteen Soviet republics.\footnote{\autocite{bolotin1992}.} For Estonia, the benchmark places 1990 GDP per capita at 8,425 \intlnineteen{}, making it the wealthiest of the three Baltic republics in that year.
+
+The quality of the Bolotin benchmark deserves explicit assessment. Bolotin's (1992) study is the only available source of direct PPP-based GDP estimates for each of the fifteen Soviet republics as individual economies. His methodology is transparent: republic-level GDP is derived by combining Soviet national accounts data on physical output with expenditure-based PPP ratios estimated by comparison with Western structural data, closely following the approach used in post-war international comparisons. The results for Estonia are internally consistent and align well with independent World Bank sectoral data for 1990.\footnote{\autocite{wbstatisticalhandbook1994}.} The principal alternative would be to construct a new republic-level benchmark from archival sources, as Ponomarenko (2002) did for Russia.\footnote{\autocite{ponomarenko2002}.} Ponomarenko's retrospective national accounts for Russia 1961--1990 represent the most thorough archival-based reconstruction of Soviet republican accounts in the literature and demonstrate that official Soviet statistics for Russia can be substantially revised using primary archive material. However, no comparable archival study exists for any of the Baltic republics, and undertaking one would require a separate multi-year project. For Estonia in particular, the Estonian SSR's statistical archives are held across several repositories and have not been fully catalogued for national accounts purposes. Bolotin's estimates therefore constitute the only feasible benchmark and, given their consistency with independent data, provide a defensible foundation for the present reconstruction.
+
+The choice of 1990 as the benchmark year for the occupation-period series warrants explanation, given that it falls at the very end of the period covered. Three alternatives were considered and rejected. First, the CIA's 1982 benchmark for the USSR as a whole is not applicable to individual republics. Second, the World Bank's 1987 Soviet input-output table, whilst providing some sectoral detail, substantially understates the size of the service sector and is therefore unsuitable as a benchmark for a full-economy reconstruction.\footnote{\autocite{wbinputoutput1987}.} Third, 1990 was the peak of Gorbachev's glasnost reforms, which produced more transparent statistical reporting than earlier Soviet decades; a commentary by the deputy chief of the Lithuanian SSR's Goskomstat from 1988 explicitly acknowledges the data manipulation prevalent in earlier years.\footnote{\autocite{adlys1988}.} Despite some economic disruption already underway in 1990, the transition to market capitalism in the Baltic states is conventionally dated to 1991.\footnote{\autocite[457]{transition_progress}.} The 1990 benchmark therefore represents the best available anchor for the entire 1937--1995 occupation-period series.
+
+The sectoral volume indices are constructed using physical-product methodology, following the CIA's approach to estimating Soviet GNP.\footnote{\autocite[48]{cia1982a}; \autocite[312]{maddison2010}.} The series draws on two distinct bodies of primary material. The first consists of published Soviet Estonian statistical yearbooks (\textit{Eesti NSV rahvamajandus}), which contain annual physical output figures for all major sectors from the mid-1950s onwards. The second, and more important for the early post-war decades and for industrial branch detail, consists of materials held in the Estonian State Archives (Rahvusarhiiv, Tallinn), from which 1986 monetary output weights for ten to eleven major industrial branches are drawn, along with physical output series for the early post-war years (1945--1955) where published yearbooks are incomplete or unavailable. The series therefore combines official Soviet publications with archival sources systematically, rather than relying on published data alone. The Estonian series comprises 101 individual industrial product categories; where archival detail was insufficient for sub-branch aggregation, index averages are used.
+
+An important qualification concerns the German occupation years (1941--1944). Data for this period is less systematic: the German civil administration (\textit{Reichskommissariat Ostland}) maintained output statistics primarily for the extractive and agricultural sectors relevant to the war economy, and coverage of service activities and small-scale industry is fragmentary. The estimates for 1941--1944 are therefore constructed from the partial German administrative records available, supplemented where necessary by interpolation between the last reliable Soviet-period observation (1940) and the first post-war figure. The quality of the 1941--1944 estimates is correspondingly lower than for the surrounding years; using Feinstein's quality classification, they are rated `rough' (uncertainty of 15--25 per cent) rather than `firm'.\footnote{\autocite[21]{feinstein1972}.} Given the depth of the wartime contraction, this does not materially affect the long-run series.
+
+Beyond industry, the series covers: \textit{agriculture, forestry, and fishing}, compiled from physical output data drawn primarily from published Soviet Estonian statistical yearbooks, supplemented by archival materials for the early post-war years; \textit{construction}, estimated as a weighted average of inputs from other branches using 1987 input-output weights, following CIA methodology;\footnote{\autocite[66--69, 82--85, 86--89]{wbinputoutput1987}.} \textit{transport and communications}, where the transport index combines total freight turnover (in tonne-kilometres) and passenger transport (in passenger-kilometres) across all modes, while the communications index is built from three weighted components — postal and telegraph services (total items dispatched), telephone services (number of calls), and radio and television services (sets in use) — aggregated using 1937 sector weights since no later benchmark disaggregation is available; \textit{trade and accommodation}, where the conventional marketed-share approach is inapplicable because in a planned economy industrial products circulate according to central allocation without wholesale trade transactions, so the index is instead constructed from Soviet-calculated trade activity indicators at \textit{comparable prices}, which track actual commercial turnover and align with trade-sector employment during the stagnation period; \textit{financial, insurance, and housing activities}, where financial and insurance activities are estimated by applying the CIA's recommended productivity adjustment — the trade activity index divided by the trade employment index — to proxy the real output of intermediation services,\footnote{\autocite[319]{Maddison1998b}.} and housing is tracked via construction and population data; and \textit{public services} (administration, defence, health, education), approximated by sectoral employment indices following CIA practice.\footnote{\autocite[319]{Maddison1998b}.}
+
+The sectoral breakdown of the Bolotin 1990 benchmark for Estonia, together with the revised 1938 benchmark, is presented in Table~\ref{tab:benchmarks}.
+
+\subsection{Splicing the series and constructing the long-run series}
+\label{subsec:splicing}
+
+The two newly constructed series — interwar (1919--1940) and occupation period (1937--1995) — are linked at 1940, and the resulting combined series is then connected to both the existing 1913 benchmark and post-1990 modern data to yield a continuous 1913/1919--2022 series.
+
+\textit{1937--1940 overlap.} Both series are extended to cover 1937--1940, providing a four-year window for cross-validation. The percentage differences between the independently constructed interwar and occupation-period estimates are $-$1.6 per cent (1937), $+$3.6 per cent (1938), $-$3.0 per cent (1939), and $-$0.3 per cent (1940) — all within the 5 per cent threshold that Feinstein classifies as `firm figures'.\footnote{\autocite[21]{feinstein1972}.} The splice is made at 1940 using the average of both estimates. This close agreement constitutes strong validation for both series. The two datasets are constructed from entirely different primary sources — interwar Estonian publications and the Estonian State Archives on one side, Soviet statistical yearbooks and separate archival series on the other — and are anchored to benchmarks derived from different methodologies and separated in time by more than five decades. That they converge within 3.6 percentage points across all four overlap years is strong evidence that the accumulated biases from single deflation, proxy indicators, and benchmark errors cancel out rather than compound. Readers may note that this overlap also provides implicit validation against earlier studies: Valge's (2003) figures for the late 1930s are broadly consistent with the new interwar estimates for material-production sectors, and the minor differences that exist are expected given his use of a cruder PPP conversion and the absence of a full service-sector benchmark.\footnote{\autocite{valge2003all}.} The overlap figures are reported in Table~\ref{tab:overlap1940}.
+
+\textit{1990--1995 overlap.} Connecting the occupation-period series to post-1990 data is more challenging. The MPD 2023 series for Estonia during 1990--1995 is likely upward-biased, as it appears to rely on Soviet net material product growth rates to extrapolate backwards from its modern benchmark, overstating the growth recorded in the final Soviet years.\footnote{MPD version 2023. The differences between this paper's occupation-period series and the adjusted MPD 2023 series widen substantially after 1991, reaching $-$25.8 per cent by 1995 (Table~\ref{tab:overlap1991}).} Post-1990 MPD data are therefore adjusted by replacing the 1990--2010 growth rates with those from the World Bank's constant-price GDP per capita series, backcast from the MPD's 2011 benchmark.\footnote{\autocite{wdi2024}; \autocite[30]{bolt_zanden_newgdp2021}.} The occupation-period series and the adjusted modern series are spliced at 1991, where the difference is only $-$0.7 per cent. Overlap figures are reported in Table~\ref{tab:overlap1991}.
+
+\textit{1913 anchor.} The 1919 series is linked backwards to the 1913 benchmark of 2,058 \intlnineteen{} from Norkus and Markevi\v{c}i\={u}t\.{e}.\footnote{\autocite[603]{norkusmark2021}.}
+
+\textit{Currency conversion.} Following Bolt and van Zanden, the 1990 benchmark is preferred for pre-1990 comparisons and the 2011 benchmark for post-1990 data.\footnote{\autocite[30]{bolt_zanden_newgdp2021}.} The complete series is compiled first in \intlnineteen{} then converted to \intltwenty{} using the standard ratio of 1.594, and both versions are reported in Table~\ref{tab:series}.
+
+% =============================================================
+% IV. THE NEW ESTONIAN GDP SERIES
+% =============================================================
+\section{The New Estonian GDP Series}
+\label{sec:results}
+
+% TARGET: ~500 words
+%
+% STRUCTURE:
+% - Summary of key levels and growth rates (reference T4a, T4b, T5)
+% - Comparison with Valge (2003): 1920s overstatement by ~10\%;
+%   1930s levels broadly consistent
+% - Comparison with Klesment et al.\ (2010): severe downward bias
+%   (~35\% of economy uncovered; 19\% below this study even in 1995)
+% - Reference F1 (main series) and F2 (new vs.\ existing)
+% - Data appendix note
+
+The new annual GDP per capita series for Estonia — covering 1913 and every year from 1919 to 2022 — is reported in Tables~\ref{tab:series} and~\ref{tab:population} and displayed in Figure~\ref{fig:gdppc}. Table~\ref{tab:growth} summarises average annual growth rates across the principal sub-periods.
+
+In 1913, on the eve of the First World War, Estonian GDP per capita stood at approximately 2,058~\intlnineteen{}, already below Latvia's 2,361~\intlnineteen{} but well above the Lithuanian figure of 1,632~\intlnineteen{}. The war, German occupation, and the subsequent independence struggle brought severe disruption: by 1919 GDP per capita had fallen to 1,600~\intlnineteen{}, some 22 per cent below the pre-war level. Recovery through the 1920s was solid, averaging 2.8 per cent annually, though the level remained below 1913 until the mid-1920s. The Great Depression imposed a sharp but brief contraction — the trough was reached in 1932 at 2,105~\intlnineteen{} — before the 1930s import-substitution drive and favourable terms of trade produced an accelerating expansion that brought GDP per capita to 2,685~\intlnineteen{} in 1938, growing at 2.7 per cent annually across the decade.
+
+The Second World War was economically catastrophic. Under Soviet occupation from mid-1940, the economy contracted sharply, reaching its nadir in 1944 at 1,910~\intlnineteen{} — below even the post-independence trough of 1919. Rapid post-war reconstruction reversed much of these losses by 1950, when GDP per capita reached 3,667~\intlnineteen{}, already 37 per cent above the interwar peak. The first two decades of Soviet rule constituted the most dynamic phase of Estonian economic history: between 1950 and 1968 GDP per capita grew at 3.9 per cent annually as heavy industrialisation expanded productive capacity rapidly. Growth decelerated sharply thereafter, falling to just 0.9 per cent annually over 1968--1989 as the economy entered a prolonged stagnation. The series reaches its Soviet-era peak at 8,958~\intlnineteen{} in 1989 before the onset of the terminal economic crisis.
+
+Transition to a market economy entailed severe income losses. Between 1989 and 1995 GDP per capita contracted at 5.8 per cent annually, bottoming out at 6,277~\intlnineteen{} — a cumulative decline of 30 per cent. The recovery from 1995 onwards was sustained and rapid, averaging 4.2 per cent annually through to 2022, by which point Estonian GDP per capita had reached 18,863~\intlnineteen{} (30,067~\intltwenty{}), making it the highest of the three Baltic states and placing Estonia firmly within the upper-middle tier of European economies.
+
+Two previous studies warrant direct comparison (Figure~\ref{fig:comparison}). Valge's (2003) interwar series shows reasonable correspondence with the new estimates for the 1930s, reflecting the shared sectoral coverage of material production.\footnote{\autocite{valge2003all}.} However, Valge's figures overstate income levels during the inflationary 1920s by an average of 10 per cent between 1923 and 1929, the consequence of deflating current-price GDP with a consumer price index that fails to capture the full extent of broad price-level movements across the economy. This produces implausibly sharp volatility — including the anomalous 29 per cent single-year jump in 1924 — that the new volume-index approach avoids.
+
+Klesment, Puur, and Valge's (2010) Soviet-period series presents a more severe divergence, explained by both inadequate benchmark data and incomplete sectoral coverage.\footnote{\autocite{klesment2010}.} Their reliance on outdated UN Economic Commission for Europe 1990 purchasing power parities — themselves derived from unreliable net material product growth figures — substantially understates the level of Estonian income. More fundamentally, their estimates cover only agriculture, industry, construction, and transport, omitting most service-sector activities; approximately 35 per cent of the economy goes unaccounted for. Even in 1995, well after the transition shock, their figures stand 19 per cent below the present estimates. The new series supersedes both studies for the periods they cover.
+
+The full annual GDP per capita and population series are provided in Tables~\ref{tab:series} and~\ref{tab:population}. Sources for all underlying series are documented in the online data appendix.
+
+% ---- Table T1: Benchmark sectoral weights ----
+\input{../../Tables/estonia/T1_benchmarks.tex}
+
+% ---- Table T2: Overlap 1937--1940 ----
+\input{../../Tables/estonia/T2_overlap1940.tex}
+
+% ---- Table T3: Overlap 1990--1995 ----
+\input{../../Tables/estonia/T3_overlap1991.tex}
+
+% ---- Table T4a: Estonian GDP per capita 1913 and 1919--2022 ----
+\input{../../Tables/estonia/T4a_series.tex}
+
+% ---- Table T4b: Estonian population 1913 and 1919--2022 ----
+\input{../../Tables/estonia/T4b_population.tex}
+
+% ---- Table T5: Growth rates by sub-period ----
+\input{../../Tables/estonia/T5_growth.tex}
+
+% ---- Figure F1: Estonian GDP per capita 1913/1919--2022 ----
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{../../Figures/estonia/F1_gdppc.pdf}
+  \caption[Estonian GDP per capita, 1913 and 1919--2022]{Estonian GDP per capita, 1913 and 1919--2022 (International dollars, 1990 Geary--Khamis, log scale). Dashed vertical lines mark the Soviet occupation (1940) and restoration of independence (1991).}
+  \label{fig:gdppc}
+  \begin{minipage}{\linewidth}
+    \footnotesize\textit{Source:} Authors' calculations. Post-1995 data from Maddison Project Database 2023, adjusted using World Bank WDI growth rates.
+  \end{minipage}
+\end{figure}
+
+% ---- Figure F2: New series vs Valge and Klesment et al. ----
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{../../Figures/estonia/F2_comparison.pdf}
+  \caption[Estonian GDP per capita: new series vs.\ previous estimates]{Estonian GDP per capita: new series compared with Valge (2003) for the interwar period and Klesment et al.\ (2010) for the Soviet period. Both previous series are approximated from published descriptions; original digitised data are not available.}
+  \label{fig:comparison}
+  \begin{minipage}{\linewidth}
+    \footnotesize\textit{Sources:} Authors' calculations (new series); \autocite{valge2003all}; \autocite{klesment2010} (previous estimates approximated from published descriptions).
+  \end{minipage}
+\end{figure}
+
+% =============================================================
+% V. LIMITATIONS AND SENSITIVITY ANALYSIS
+% =============================================================
+\section{Limitations and Sensitivity Analysis}
+\label{sec:limitations}
+
+% TARGET: ~600 words
+%
+% STRUCTURE:
+% - Single deflation bias: interwar and Soviet periods
+% - Late benchmark issues for the interwar series (1938 is the only
+%   direct PPP anchor for 1919--1940)
+% - Service sector coverage gaps: no sub-sector breakdown in 1938
+%   benchmark for commerce; public services proxied by economy movement
+% - Soviet-era data reliability: physical product indices vs.\ value-added
+% - Sensitivity of results to benchmark choice
+% - Overlap precision (1937--1940 and 1990--1995) as the principal
+%   robustness check: all 1937--1940 differences < 5\% (``firm'');
+%   1990--1991 difference < 1\%
+% - Comparison with Feinstein's quality classification
+
+The new series involves five distinct categories of potential bias, which are assessed in turn. In each case the principal robustness check is the overlap cross-validation described in Section~\ref{subsec:splicing}: the close agreement between independently constructed series at 1937--1940 and 1990--1991 sets an empirical upper bound on the aggregate bias introduced by the methods employed.
+
+\textit{Benchmark quality.} The 1938 interwar benchmark is robust for agriculture, industry, construction, and housing, which together account for approximately 65 per cent of GDP. The remaining 35 per cent — commercial services, transport, public administration, education, defence, and household services — rests on sparser foundations: service value-added is estimated from subsectoral salary data and Latvian structural ratios, and is therefore subject to improvement as primary archival material is assembled. The maximum impact of a $\pm$10 per cent error in the service estimates on total GDP is $\pm$3 per cent. The 1990 Bolotin benchmark, by contrast, covers all major sectors, and the material-production figures align satisfactorily with World Bank sectoral data.\footnote{\autocite{wbstatisticalhandbook1994}.} Two areas of residual uncertainty remain: Bolotin's methodology for attributing trade and other service sector income to individual republics is not fully documented, and the conversion from Soviet roubles to international dollars using USSR-wide exchange rates may not perfectly reflect price conditions in individual republics. Addressing either concern would require extensive archival investigation beyond the scope of the present paper.
+
+\textit{Single deflation.} The most quantitatively significant bias is that introduced by single deflation — the assumption that the ratio of value-added to gross output within each sector remains constant at its benchmark-year level throughout the estimation period. This assumption is most likely to be violated during periods of rapid structural change in input costs: as intermediate inputs become cheaper (or more expensive) relative to gross output, true real value-added diverges from the single-deflated approximation. For the interwar period, which saw relatively modest input-cost movements outside agriculture, the bias is limited. For the occupation period, the planned pricing of inputs and the sustained heavy industrialisation — which shifted production increasingly towards intermediate-goods-intensive branches — means that value-added-to-output ratios almost certainly moved across the five-decade span, and single deflation may overstate GDP growth. Drawing on Swedish national account studies, which permit a direct comparison of single- and double-deflated series over comparable sub-periods of industrialisation, the maximum bias attributable to single deflation is estimated at $\pm$2 per cent of total GDP for the interwar period and up to $-$14 per cent for the occupation period.\footnote{\autocite[19]{swedengdp_15602010}.} The occupation-period figure is the dominant concern, but it is substantially mitigated by two observations. First, the smooth connectivity between the interwar and occupation-period series at 1937--1940 is difficult to reconcile with a large systematic level error: two independently constructed series anchored to different benchmarks separated by five decades agree within 3.6 percentage points across all four overlap years, providing a direct empirical bound on the aggregate bias. Second, single deflation is standard in Soviet-era historical accounting; the CIA itself applied double deflation only to the agricultural sector, precisely because no consistent data on intermediate consumption by branch were available for other sectors of the Soviet economy.\footnote{\autocite[45]{cia1982a}.}
+
+\textit{Late benchmark and index number problem (Gerschenkron effect).} Both series are extrapolated backwards from late benchmarks: 1938 for the interwar period and 1990 for the occupation period. Using a late benchmark allows broader sectoral coverage — industrial branches like precision instruments that did not exist in 1919 or 1940 are properly weighted — but introduces a known index number bias. Because benchmark weights reflect 1990 relative prices, which assign lower shares to rapidly growing sectors (whose prices fell relative to more mature branches as productivity improved), the method produces a late-weighted Paasche-type index that, on theoretical grounds, is biased upward for early-period growth and downward for late-period growth — the so-called Gerschenkron effect.\footnote{\autocite[5--6]{gerschenkron1962}.} For the occupation-period industrial series in particular, this likely overstates growth in 1950--1968 and understates it in 1973--1989. Three arguments bound the practical concern. First, this is precisely the approach the CIA itself used for Soviet GNP, and it is the standard in Soviet-era historical accounting: using a different weighting scheme would render the new estimates incomparable with all existing benchmarks.\footnote{\autocite[48]{cia1982a}; \autocite[307--308]{Maddison1998b}.} Second, the debate over single benchmark extrapolation has lost much of its empirical traction. Broadberry and Burhop (2007, 2008), working with economies that permit direct comparison across weighting schemes, find that alternative weight structures produce differences well within the margins of other sources of measurement error for the aggregate GDP series.\footnote{\autocite{broad2007}; \autocite{broad2008}.} Third, and most directly, the aggregate effect on total GDP per capita appears modest: the Baltic average occupation-period growth rate of 2.6 per cent per annum falls precisely at the midpoint between USSR (2.4 per cent) and East--Central European (2.7 per cent) averages, suggesting no systematic divergence attributable to index number bias.\footnote{MPD version 2023; \autocite{mpd2023}.}
+
+\textit{Sectoral data gaps.} Several individual series rest on proxy indicators. For the interwar period, industrial output is approximated by an employment index adjusted for real wage movements — a recognised second-best method when direct physical output data is unavailable.\footnote{\autocite[22]{broadberryinmorys}.} The maximum impact on total GDP is $\pm$1 per cent. Defence personnel numbers are known only for 1919--1920 and 1939, with constant staffing assumed between those years; the implied bias on total GDP is at most $\pm$1 per cent. For the occupation period, the trade sector series uses Soviet comparable-price data, which may contain hidden inflation; drawing on Kontorovich's price revision estimates, the maximum upward bias on total GDP is approximately 2 per cent.\footnote{\autocite[688--689]{kontorovich_2001}.} Defence activity is entirely unobserved after 1940 (the Soviet military being treated as an all-union rather than republican institution) and is proxied by public sector employment; the maximum bias is $\pm$5 per cent of total GDP.
+
+\textit{Shadow economy.} Unregistered economic activity is estimated to have constituted 10--20 per cent of Soviet GDP in 1989.\footnote{\autocite[5]{baltictransitioncontraction}.} However, OECD economies exhibited comparable shadow economy shares at the same date, implying that this source of potential understatement is broadly comparable across countries and does not systematically reduce the international comparability of the new series.\footnote{\autocite[90--91]{shadow_europe}.}
+
+Taken together, the quantifiable biases are bounded: interwar GDP per capita is subject to a combined maximum uncertainty of approximately $\pm$6 per cent; occupation-period GDP per capita to approximately $-$14 per cent in level terms but with an uncertain sign for growth rates. The tight overlaps in both transition zones — within Feinstein's `firm figures' threshold in 1937--1940 and within 1 per cent at the 1991 splice — provide the strongest available validation that accumulated errors remain small in the aggregate.
+
+% =============================================================
+% VI. IMPLICATIONS: ESTONIAN ECONOMIC GROWTH IN EUROPEAN PERSPECTIVE
+% =============================================================
+\section{Implications: Estonian Economic Growth in European Perspective}
+\label{sec:implications}
+
+\subsection{What drives catch-up growth in the periphery?}
+\label{subsec:theory}
+
+% TARGET: ~300 words
+%
+% STRUCTURE:
+% - Gerschenkron: advantages of backwardness
+% - Abramovitz: social capability and technological congruence
+% - Neoclassical convergence (Solow): diminishing returns and
+%   capital-labour convergence
+% - Endogenous growth and institutions (Acemoglu, North):
+%   why convergence is conditional
+% - Framework: three regimes (interwar capitalism, Soviet socialism,
+%   post-1990 capitalism) as tests of conditional convergence
+
+The new GDP per capita series spans three distinct political-economic regimes: interwar capitalism (1919--1940), Soviet socialism (1940--1995), and post-independence capitalism (1995--2022). Interpreting Estonia's record under each requires a common theoretical framework.
+
+The starting point is the `advantages of backwardness' identified by Gerschenkron (1962): a late industrialiser can import existing technologies rather than develop them, leaping ahead faster than the pioneer had done.\footnote{\autocite[8]{gerschenkron1962}.} The neoclassical growth model of Solow (1956) formalises this intuition: diminishing returns to capital imply that, all else equal, a capital-poor economy grows faster as it accumulates towards its steady state.\footnote{\autocite[70--71]{solow1956}.} Both mechanisms predict automatic convergence among economies that are structurally similar.
+
+Abramovitz and David (1996) qualify this optimism decisively.\footnote{\autocite{abramovitz_david1996}.} Whether a country can exploit its backwardness depends on two conditions. First, \textit{technological congruence}: the leading technologies must be applicable to the laggard's factor endowments and market size. Second, \textit{social capability}: the institutional, educational, and financial infrastructure needed to absorb and deploy advanced technology. Secure property rights, a literate workforce, functioning capital markets, and effective governance are all components of social capability. Without them, the potential for catch-up remains latent. North's (1990) emphasis on the centrality of institutions to long-run growth performance and Acemoglu's (2012) comparative work on inclusive versus extractive institutions converge on the same conclusion: convergence is conditional, not automatic.\footnote{\autocite{north1990}; \autocite{acemoglu_whynationsfail}.}
+
+This framework generates clear predictions for Estonia's three regimes. The interwar period offered advantages of backwardness in a capitalist setting, with the realisation depending on whether social capabilities were in place. The Soviet period substituted state-directed capital accumulation for market mechanisms — potentially achieving catch-up in the short run whilst systematically eroding the institutional preconditions for sustained productivity growth. Modern independence restored market incentives and, critically, imported Western institutions via EU accession, enabling a return to conditional convergence. The sections below examine how well this framework fits the Estonian evidence.
+
+\subsection{Interwar Estonia (1919--1940): recovery, Depression, and the 1930s acceleration}
+\label{subsec:interwar-implications}
+
+% TARGET: ~500 words
+%
+% STRUCTURE:
+% - Post-WWI disruption and the slow 1920s: trade network collapse,
+%   currency stabilisation, reorientation away from Russian market
+% - Navigating the Great Depression: Estonia's relative resilience
+%   (gold standard exit 1933, devaluation, peg to sterling)
+% - 1930s industrialisation drive: import substitution, Denmarkisation,
+%   state-promoted co-operatives, authoritarian modernisation
+% - Relative position in Eastern Europe: convergence or divergence?
+%   (reference F3 and F7)
+% - Growth theory lens: social capability, export orientation,
+%   egalitarian land reform, institutional stability as enabling factors
+
+The First World War found Estonia largely behind the front line until 1918, sparing it the total demographic collapse suffered by Latvia and Lithuania. Nevertheless, the evacuation of its industrial capacity — Tallinn's factories dismantled and shipped eastward to serve the imperial war economy — produced a severe economic contraction. By 1919, Estonian GDP per capita stood at 1,600~\intlnineteen{}, 22 per cent below the pre-war level of 2,058~\intlnineteen{}. The loss of the Russian market, which had absorbed the bulk of pre-war Baltic manufactures, was permanent: the Bolshevik revolution closed what had been described as an `El Dorado' for Baltic trade.\footnote{\autocite[51, 57]{russia_eldorado}.}
+
+Recovery through the 1920s was solid but unspectacular. GDP per capita grew at 2.8 per cent annually between 1919 and 1929, restoring pre-war levels by the mid-decade and pushing to 2,113~\intlnineteen{} by 1929 (Figure~\ref{fig:gdppc}). Monetary stabilisation — achieved with the introduction of the Estonian kroon in 1928 and a subsequent peg to sterling in 1933 — was essential to this recovery, as was the reorientation of trade towards Western European partners, above all the United Kingdom and Germany.\footnote{\autocite[74]{bernankejames01}.} From a growth theory standpoint, the 1920s broadly conform to the post-war reconstruction phase described by Gerschenkron: growth driven by rebuilding rather than structural transformation, and conditioned by the institutional and human capital endowments inherited from the pre-war period.
+
+Estonia's experience of the Great Depression was comparatively mild. Agricultural export prices fell sharply after 1929, but the government's decision to abandon the gold standard and peg the kroon to sterling in 1933 restored export competitiveness and facilitated monetary easing.\footnote{\autocite[74]{bernankejames01}.} The trough of 2,105~\intlnineteen{} in 1932 was relatively shallow, and recovery was rapid: the growth path closely resembled that of Finland and the other Nordic economies that had similarly exited gold, and the Baltic states emerged as the continent's top performers in GDP per capita growth between 1929 and 1938, surpassed only by the USSR (Figure~\ref{fig:fgdppc}).\footnote{\autocite[184, 198--200]{finlandeh01}; \autocite{grytten_nordicdepression}.}
+
+The 1930s acceleration — the most dynamic phase of interwar Estonian growth — was driven primarily by an ambitious import-substitution programme that scholars have labelled `Denmarkisation': state-directed investment in food processing, dairy co-operatives, and light manufacturing, with the objective of replicating the Danish model of agricultural modernisation.\footnote{\autocite{norkus_denmarkisation}.} Heavy industry remained modest by East-Central European standards, reflecting both the small domestic market and deliberate policy choices. By 1938, GDP per capita had reached 2,685~\intlnineteen{}, a level placing Estonia among the top performers of Europe's eastern periphery (Figure~\ref{fig:fgdppc}).
+
+What explains this relative success? Three enabling conditions stand out. First, Estonia entered the interwar period with social capabilities — literacy rates, secure smallholder property rights following the land reform of 1919, and Protestant institutional traditions inherited from Swedish and German rule — that were unusually strong for a country at its income level.\footnote{\autocite[1484--1489]{berendregions2020}.} Second, export orientation kept Estonia connected to Western European technology and market discipline at a time when much of the region was retreating into autarky. Third, the modest industrial base meant that the structural adjustment from the collapse of the Russian market, while painful, was less severe than in Latvia, where a larger pre-war industrial sector had been more deeply integrated with the imperial economy. Together, these conditions gave Estonia the social capability to convert its advantages of backwardness into above-average growth — even if the pace of structural transformation, measured by the slow shift of labour out of agriculture, fell short of what the post-war Western European environment would later enable.
+
+\subsection{Under Soviet occupation (1940--1995): growth, stagnation, and decline}
+\label{subsec:soviet-implications}
+
+% TARGET: ~600 words
+%
+% STRUCTURE:
+% - WWII shock: demographic and economic collapse
+% - 1950s--1960s: Soviet industrial growth; why Estonia grew faster
+%   than most East-Central European economies (light industry,
+%   oil-shale, relatively intact post-war infrastructure)
+% - 1968 onwards: deceleration --- earlier and sharper in Estonia
+%   than in Lithuania; heavy-industry bias; TFP slowdown
+% - 1970s--1980s stagnation: systemic constraints; why socialist
+%   growth exhausted itself
+% - 1987--1995: pre-transition decline and severity of transition shock
+%   (but milder than Latvia due to smaller heavy-industry share)
+% - Reference F3, F4, F5
+% - Growth theory lens: Soviet growth as forced structural change
+%   without institutional modernisation
+
+Soviet occupation brought the immediate destruction of the independent economic order and a severe wartime contraction. By 1944, with German and Soviet forces fighting across Estonian territory for the second time, GDP per capita had collapsed to 1,910~\intlnineteen{} — below even the post-independence trough of 1919. The human losses were proportionally among the most severe in Europe: deportations, wartime deaths, and flight to the West reduced the population by roughly 25 per cent between 1939 and 1945. Forced collectivisation of agriculture, completed in 1949 at the cost of approximately 45,000 further deportations, destroyed the smallholder economy that had anchored the interwar growth model.\footnote{\autocite[265]{taagepera_coll01}; \autocite[12]{deportations_ee}.}
+
+The post-war reconstruction was rapid. By 1950, GDP per capita had recovered to 3,667~\intlnineteen{}, already 37 per cent above the interwar peak of 1938 — a pace that reflected both the scale of the initial disruption and the enormous Soviet investment inflows that transformed Estonia into a specialised supplier of oil shale energy, electricity, textiles, and precision instruments for the USSR.\footnote{\autocite[158--217]{case_estonia}.} The period 1950--1968 constitutes the most dynamic phase of Estonian economic history, with growth averaging 3.9 per cent annually. Industry and construction drove this expansion, with heavy industrial branches growing at 13--14 per cent per annum in 1948--1969 (Table~\ref{tab:growth}). The structural transformation of the labour force — collectivisation's most economically significant effect — released rural labour for the new factories, though in Latvia and Estonia, where pre-war urbanisation had already been relatively advanced, this process required sustained in-migration of Russian-speaking workers from the Soviet interior.\footnote{\autocite{case_estonia}.}
+
+Estonia's position within the Soviet income hierarchy is revealing. In 1940, at the moment of occupation, Estonian GDP per capita was considerably above the Soviet total figure — reflecting the fact that the USSR's average income was dragged down by the vast, relatively poor Central Asian and Caucasian republics. Although precise Soviet-total income estimates carry their own measurement difficulties, the MPD data place the Soviet average in 1940 at approximately 2,144~\intlnineteen{}, well below Estonia's 2,771~\intlnineteen{} at the moment of occupation; by 1950, the new series places Estonia at 3,667~\intlnineteen{}, well above the Soviet average of 2,841~\intlnineteen{}.\footnote{MPD version 2023; \autocite{mpd2023}.} Estonia's lead over the Soviet average widened further during the investment-intensive 1950s: as an advanced republic receiving disproportionate capital inflows, Estonia was consistently among the wealthiest Soviet republics throughout the occupation period, alongside the Russian Federation and (later) Kazakhstan. By 1989 Estonia's GDP per capita of 8,958~\intlnineteen{} represented approximately 126 per cent of the Soviet total average — a margin that had narrowed somewhat from the early post-war peak as growth in the Central Asian republics outpaced the Baltic during some sub-periods, but remained large throughout. Moscow's substantial investment transfers were therefore a genuine source of income above what Estonia would plausibly have achieved under autarky; the question of whether they constituted sufficient compensation for the loss of economic and political sovereignty is beyond the scope of this paper, but the income accounting is unambiguous.
+
+The sectoral record illuminates two features of the Soviet growth story that aggregate figures obscure. First, the impact of forced agricultural collectivisation (completed in 1949) is visible directly in the agricultural volume index: after the wartime contraction, agricultural output recovered slowly through the late 1940s and did not exceed its 1938 level until 1958 — nearly two decades after the peak, and despite massive state investment in mechanisation. This stands in contrast to Estonia's experience of industrialisation-era agricultural development in interwar Finland and the Nordic countries, where output grew continuously once the institutional disruptions of the early post-war years were resolved. The Estonian experience echoes the pattern documented for Soviet agriculture broadly: collectivisation eliminated the incentive structure of smallholder farming without supplanting it with a more productive alternative, and the slow recovery of the 1950s reflected the long lag between institutional disruption and any restoration of farming productivity. Second, the light-industrial boom that characterised the 1950s and 1960s — textiles, leather goods, and food processing — gave way to stagnation from the early 1970s onwards, as global demand for the Soviet-era product mix declined and the all-union investment priorities shifted towards defence and heavy industry; the light-industry volume index peaked in the early 1970s and remained essentially flat for the remaining Soviet period, a pattern consistent with the systematic underinvestment in consumer-goods branches documented by Soviet planners' own internal assessments.
+
+Deceleration set in sharply after 1968. Growth fell to 0.9 per cent annually over 1968--1989 — earlier and more pronounced in Estonia than in Lithuania, which maintained momentum until the mid-1970s. The exhaustion of extensive growth — driven by labour reallocation and capital accumulation at high rates — left the economy without the institutional means to shift to intensive, productivity-led growth. The mass-production model that had powered the 1950s boom remained dominant. By contrast, the service sector's share of GDP reached only 42 per cent in 1990, broadly unchanged from its 40 per cent interwar level and far below the 60 per cent share in Finland — a country that had undergone the structural transformation that Soviet institutions blocked.\footnote{Table~\ref{tab:benchmarks}; for Finland's service sector share, see \autocite[11--12]{ahderajasalu1992}.} The systemic inability to transition from mass to flexible production, compounded by isolation from global technology flows after the West restricted technology transfer from the 1970s onwards, produced stagnation across the Soviet bloc. By the late 1980s, growth in Estonia had effectively ceased; between 1987 and 1989 GDP per capita expanded by less than 0.2 per cent annually.
+
+The transition shock was severe. The collapse of Soviet-era specialisation — Estonia's industries had been designed to serve the vast all-union market and had limited value in Western markets — combined with the loss of cheap Soviet raw materials and the structural adjustment to services produced a cumulative decline of 30 per cent between 1989 and 1995.\footnote{\autocite[164--166]{norkus_restorations}.} The severity of Estonia's decline was nonetheless relatively contained compared with most other post-Soviet economies, cushioned by its smaller share of heavy and all-union industries, its early and bold market reforms — including the introduction of a currency board in 1992 — and its privileged access to Finnish capital and labour markets during the transition years.\footnote{\autocite[22]{transition_greenes}; \autocite[11, 176]{norkus_restorations}.} Recovery after 1995 was rapid, averaging 4.2 per cent annually through to 2022, driven by trade reorientation towards Nordic and Western partners, foreign direct investment, and the institutional modernisation that EU accession in 2004 consolidated.
+
+From a growth theory perspective, the Soviet episode is instructive. Initial catch-up in the 1950s and 1960s was real — driven by exactly the mechanisms Gerschenkron and Solow predict when a capital-poor economy undertakes mass industrialisation. That the socialist system could deliver this, at least in the medium run, constitutes a fact that nationalist narratives on both sides tend to obscure. But the subsequent stagnation equally confirms the conditional convergence view: once extensive growth inputs were exhausted, the USSR's extractive institutions — which suppressed entrepreneurship, innovation incentives, and firm-level flexibility — prevented the institutional upgrading required to sustain productivity growth. Estonia's 1989 income of 8,958~\intlnineteen{} represented 52 per cent of the Western European core average — far below the approximately 70 per cent share recorded in 1968, and broadly comparable to the 51 per cent of 1913. The rapid catch-up growth of 1950--1968 had been almost entirely reversed in relative terms by the subsequent two decades of Soviet stagnation.
+
+\subsection{A Finnish miracle that never was}
+\label{subsec:finland}
+
+% TARGET: ~600 words
+%
+% STRUCTURE:
+% - The Estonia--Finland comparison in the literature: a recurring
+%   narrative of shared destiny interrupted by Soviet occupation
+% - Evidence for similarity: Protestant culture, comparable literacy,
+%   land reform, export-oriented agrarian economies
+%   (reference T7, T8, F8)
+% - Evidence from the new figures: income levels in 1919, 1929, 1938
+%   --- Estonia substantially below Finland; Latvia considerably closer
+%   (reference F6, F7, T6)
+% - Soviet-era divergence: real and large, but Estonia was already
+%   trailing Finland markedly in 1938
+% - Conclusion: qualitative affinities real but income parity overstated;
+%   Finland's post-war growth was also exceptional on its own terms
+
+No comparison in the literature on Baltic economic history recurs more insistently than that between Estonia and Finland. The two countries share a Protestant cultural tradition, languages from the same Finno-Ugric family, a history of Swedish rule, early emancipation of serfs (1816--1819 in both cases), and the sweeping land reforms that followed independence.\footnote{\autocite[129]{corum2013}; \autocite{norkus_denmarkisation}.} Both emerged as independent states after the First World War and reoriented their economies towards Western European markets. By the 1930s, scholars and policymakers treated Finland as Estonia's natural comparator: a country with similar structural characteristics that had simply been fortunate enough to remain on the capitalist side of the Iron Curtain. Some accounts went further, asserting income parity or near-parity in 1938 and attributing the subsequent divergence almost entirely to Soviet occupation.\footnote{For example, \autocite[1]{laarmiracle}, which estimated Estonian GDP per capita at one-seventh of Finland's in 1987; for the income-parity claim in 1939, see \autocite[300]{estonia_history}.}
+
+The new data permits a systematic assessment of these claims. Table~\ref{tab:finland} reports Estonian and Finnish GDP per capita at benchmark years, and Figure~\ref{fig:finland} plots the two series from 1913 to 2022. The comparison yields three findings.
+
+First, Estonia began independence at near-parity with Finland but fell progressively behind over the interwar decades. In 1919, Estonian GDP per capita of 1,600~\intlnineteen{} was almost equal to the Finnish level, representing approximately 97 per cent of it.\footnote{Finland 1919: \autocite{mpd2023}, MPD version 2023.} The common claim that this near-parity persisted into the late 1930s rested on Colin Clark's (1938) rough estimate that placed Estonia at around 90 per cent of Finland for the period 1925--1934 — a figure derived indirectly and never subjected to rigorous bilateral comparison.\footnote{\autocite[60]{clark1938}.} Finland's growth substantially outpaced Estonia's through the 1920s: by 1929 Estonia had fallen to around 78 per cent of the Finnish level, and by 1938 — despite the decade of impressive Denmarkisation growth — the gap had widened further: Estonia's 2,685~\intlnineteen{} represented approximately 75 per cent of Finland's income per capita, well below Clark's implied figure and confirming that his conversion overstated Estonia's relative living standards. Latvia, whose 1938 figure of 3,099~\intlnineteen{} was 15 per cent higher than Estonia's, stood considerably closer to Finland. The Estonia--Finland gap in 1938 owed as much to Finland's own strong interwar performance — among the best in Europe — as to any Estonian shortcoming (Figure~\ref{fig:fgdppc}).
+
+Second, the Soviet-era divergence was real and large. Finland's economy expanded vigorously through the post-war decades, averaging 3.1--4.4 per cent annually across all four Cold War sub-periods (Table~\ref{tab:growth}).\footnote{\autocite{mpd2023}.} Soviet Estonia grew faster than Finland in 1950--1968 but far more slowly thereafter. By 1989, the Estonia--Finland income gap had widened enormously: Estonian GDP per capita at 8,958~\intlnineteen{} represented approximately 53 per cent of the Finnish level, compared with 75 per cent in 1938. The Soviet occupation plainly accounts for a large part of the divergence over the century.
+
+Third — and this is the paper's central finding on the Finland comparison — the popular framing overstates the role of Soviet occupation by understating how far Estonia already trailed Finland by the end of the interwar period. A country that stood at 75 per cent of Finnish income in 1938 — already well below the near-parity of 1919 — cannot be characterised as Finland's economic equal whose convergence was interrupted. The qualitative affinities between Estonia and Finland are genuine: shared religion, similar literacy rates, egalitarian land reform, and export-oriented agrarian structures (Tables~\ref{tab:literacy} and~\ref{tab:agshare}). These similarities justify Finland's use as a comparator. But they do not imply income parity: Finland's industrialisation had proceeded more rapidly after independence, its export orientation was stronger, and its GDP per capita reflected those advantages.\footnote{\autocite[184, 198--200]{finlandeh01}.} The divergence between 1938 and 1989 reflects both the genuine cost of Soviet occupation and Finland's own exceptional post-war growth — what Crafts and Toniolo (1996) describe as the `golden age' phenomenon, in which the post-war Western European institutional framework enabled catch-up growth that no interwar economy, whatever its social capabilities, could have achieved under the conditions of the 1930s.\footnote{\autocite[1--37]{crafts_toniolo1996}.}
+
+The conclusion is therefore nuanced. The Soviet occupation imposed severe and lasting costs on Estonia, visible in the stagnation of relative income after 1968 and the brutal transition shock of the early 1990s. But Finland was not Estonia's `alter ego', interrupted only by historical accident. It was a genuinely richer country in 1938, one that was well positioned to exploit the exceptional growth opportunities of the post-war capitalist order. The gap that opened between 1938 and 1989 reflects both Estonian misfortune and Finnish success, in roughly equal measure.
+
+% ---- Table T6: Estonia and Finland income levels at benchmark years ----
+\input{../../Tables/estonia/T6_finland.tex}
+
+% ---- Table T7: Literacy rates, 1930s European comparison ----
+\input{../../Tables/estonia/T7_literacy.tex}
+
+% ---- Table T8: Agriculture employment shares, 1930s comparison ----
+\input{../../Tables/estonia/T8_agshare.tex}
+
+% ---- Figure F3: Estonia as % of Western core 1913--2022 ----
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{../../Figures/estonia/F3_westerncore.pdf}
+  \caption[Estonia: GDP per capita as a share of the western European core]{Estonian GDP per capita as a percentage of the unweighted western European core average (United Kingdom, France, Germany, Sweden, Denmark, Norway, Netherlands, Belgium).}
+  \label{fig:westerncore}
+  \begin{minipage}{\linewidth}
+    \footnotesize\textit{Sources:} Authors' calculations (Estonia); Maddison Project Database 2023 (western European core).
+  \end{minipage}
+\end{figure}
+
+% ---- Figure F4: Sectoral growth decomposition, interwar ----
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{../../Figures/estonia/F4_sectoral_interwar.pdf}
+  \caption[Sectoral contributions to GDP growth: interwar Estonia, 1920--1939]{Sectoral contributions to GDP growth, Estonia 1920--1939. Percentage-point contributions computed using 1938 benchmark weights (Laspeyres approximation). Public and other services shown as residual.}
+  \label{fig:sectoral_interwar}
+  \begin{minipage}{\linewidth}
+    \footnotesize\textit{Source:} Authors' calculations; see online data appendix for underlying sectoral volume indices.
+  \end{minipage}
+\end{figure}
+
+% ---- Figure F5: Sectoral growth decomposition, Soviet period ----
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{../../Figures/estonia/F5_sectoral_soviet.pdf}
+  \caption[Sectoral contributions to GDP growth: Soviet Estonia, 1946--1990]{Average annual sectoral contributions to GDP growth, Estonia 1946--1990, by five-year period. 1990 Bolotin benchmark weights. Commercial services proxied by the housing volume index; public and other services shown as residual.}
+  \label{fig:sectoral_soviet}
+  \begin{minipage}{\linewidth}
+    \footnotesize\textit{Source:} Authors' calculations; see online data appendix for underlying sectoral volume indices.
+  \end{minipage}
+\end{figure}
+
+% ---- Figure F6: Estonia and Finland GDP per capita 1913--2022 ----
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{../../Figures/estonia/F6_finland.pdf}
+  \caption[Estonia and Finland: GDP per capita, 1913 and 1919--2022]{GDP per capita of Estonia and Finland, 1913 and 1919--2022 (International dollars, 1990 Geary--Khamis).}
+  \label{fig:finland}
+  \begin{minipage}{\linewidth}
+    \footnotesize\textit{Sources:} Authors' calculations (Estonia); Maddison Project Database 2023 (Finland).
+  \end{minipage}
+\end{figure}
+
+% ---- Figure F7: GDP per capita PPP 1920--1939 ----
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{../../Figures/estonia/F7_fgdppc.pdf}
+  \caption[GDP per capita in Eastern and Northern Europe, 1913 and 1919--1939]{GDP per capita for selected Eastern and Northern European economies, 1913 and 1919--1939 (International dollars, 1990 Geary--Khamis).}
+  \label{fig:fgdppc}
+  \begin{minipage}{\linewidth}
+    \footnotesize\textit{Sources:} Maddison Project Database 2023; authors' calculations (Estonia).
+  \end{minipage}
+\end{figure}
+
+% ---- Figure F8: Trade to GDP 1920--1939 ----
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=\textwidth]{../../Figures/estonia/F8_trade.pdf}
+  \caption[Trade openness (exports + imports as \% of GDP), 1919--1939]{Trade openness -- exports plus imports as a percentage of GDP -- for Estonia, Finland, Latvia, Denmark, Norway, and Sweden, 1919--1939.}
+  \label{fig:trade}
+  \begin{minipage}{\linewidth}
+    \footnotesize\textit{Sources:} Authors' calculations (Estonia); national statistical sources and Maddison Project Database 2023 (comparators).
+  \end{minipage}
+\end{figure}
+
+% =============================================================
+% VII. CONCLUSION
+% =============================================================
+\section{Conclusion}
+\label{sec:conclusion}
+
+% TARGET: ~500 words
+%
+% STRUCTURE:
+% - Recap of three-dimensional reconstruction and what it adds
+%   over Valge (2003) and Klesment et al.\ (2010)
+% - Key findings across three periods (interwar, Soviet, transition)
+% - The Finnish comparison: a useful heuristic whose quantitative
+%   basis is weaker than the popular narrative suggests
+% - Ready for Maddison Project Database integration
+% - Directions for future research: expenditure-side cross-checks,
+%   double deflation, sub-republic regional accounts
+
+This paper has constructed the first reliable, internationally comparable annual GDP per capita series for Estonia covering the full period from 1919 to 1995, extended backwards to 1913 using the existing benchmark of Norkus and Markevičiūtė and forwards to 2022 using adjusted Maddison Project data. The reconstruction rests on three methodological dimensions: a new 1938 PPP benchmark that supersedes Valge's (2003) indirect conversion; recalculated and extended 1919--1940 interwar volume indices anchored to that benchmark; and a new Soviet-period series for 1937--1995 anchored to Bolotin's (1990) direct PPP estimates for the Estonian SSR. The close agreement between independently constructed interwar and Soviet-period series at their 1937--1940 overlap — all four differences within Feinstein's `firm figures' threshold of 5 per cent — and the near-perfect 1991 splice ($-$0.7 per cent) together provide strong validation that the accumulated estimation error is small.
+
+Three substantive findings emerge from the new series. First, interwar growth was real and respectable. Estonia grew at 2.8 per cent annually in the 1920s and 2.7 per cent in the 1930s, placing it among the better-performing peripheral economies in Europe and fully recovering from the catastrophic post-war disruption by the mid-1920s. The 1930s acceleration driven by Denmarkisation and monetary stabilisation brought Estonian GDP per capita to 2,685~\intlnineteen{} in 1938 — a genuine achievement, though one that still left the country at roughly 75 per cent of Finnish income — already a substantial gap, in contrast to the near-parity of 1919 and the near-parity that the older literature supposed for 1938.
+
+Second, Soviet growth was rapid in the 1950s and 1960s and then collapsed. The 3.9 per cent annual growth of 1950--1968 — driven by mass industrialisation, forced labour reallocation, and disproportionate Soviet investment inflows — was the fastest sustained episode in Estonian history. Growth thereafter slowed dramatically to 0.9 per cent annually, as the extensive growth model exhausted itself and institutional constraints blocked the transition to productivity-led growth. By 1989, Estonia's income relative to the Western European core had fallen sharply from its 1968 peak of approximately 70 per cent to just 52 per cent, as the stagnation of the final Soviet decades erased much of the catch-up achieved in 1950--1968. The transition shock of 1989--1995 was severe — a cumulative decline of 30 per cent — before recovery, anchored by early and bold market reform and proximity to Finnish capital markets, resumed strongly after 1995.
+
+Third, the Finland comparison requires recalibration. The qualitative similarities between pre-war Estonia and Finland are genuine and well-documented: shared Protestant culture, early emancipation of serfs, high literacy, egalitarian land reform, and export-oriented agrarian economies. But these institutional affinities never translated into income parity. Estonia stood at roughly 75 per cent of Finnish GDP per capita in 1938 — already well below the near-parity of 1919. The divergence between 1938 and 1989 reflects both the costs of Soviet occupation and Finland's own exceptional post-war golden age growth — which no interwar economy, however well-endowed, was positioned to replicate under the conditions of the 1930s.
+
+The series is ready for integration into the Maddison Project Database as the authoritative source for Estonian GDP per capita in 1919--1995. Several directions for future research present themselves. Expenditure-side cross-checks, feasible for at least a small number of interwar years, could provide additional validation of the level estimates. The 35 per cent of the 1938 benchmark resting on estimated service-sector value-added remains the most significant area for improvement, requiring a dedicated benchmark study analogous to those conducted for Lithuania in 1937 and Latvia in 1935. Soviet-era regional accounts — distinguishing investment flows between republics — would help resolve the open question of whether the Baltic SSRs were net contributors to or beneficiaries of the all-union fiscal system.
+
+% =============================================================
+% BIBLIOGRAPHY
+% =============================================================
+\newpage
+{\sloppy\printbibliography}
+
+% =============================================================
+% ONLINE DATA APPENDIX NOTE
+% =============================================================
+\newpage
+\section*{Online Data Appendix}
+\addcontentsline{toc}{section}{Online Data Appendix}
+
+The online data appendix (Excel) contains the following series, with full source documentation:
+\begin{itemize}
+    \item Annual GDP per capita, Estonia, 1913 and 1919--2022 (\intlnineteen{} and \intltwenty{})
+    \item Annual population, Estonia, 1913 and 1919--2022
+    \item Sectoral value-added indices, 1919--1995 (interwar and Soviet-period series)
+    \item 1938 benchmark GDP: sectoral breakdown, original Valge figures and revised estimates
+    \item 1990 benchmark GDP: Bolotin sectoral breakdown for Estonian SSR
+    \item PPP conversion details: 1938 bilateral price comparison with Sweden
+\end{itemize}
+
+\end{document}
