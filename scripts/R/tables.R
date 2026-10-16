@@ -16,6 +16,7 @@
 #
 # Run from the repository root:  Rscript scripts/R/tables.R
 # No stochastic operations; no set.seed() needed.
+# Author: A. Klimantas (pipeline drafted with Claude Code)   Last revised: 2026-10-16
 # =============================================================================
 
 library(readxl)
@@ -47,9 +48,11 @@ read_sc <- function(path) {
 fmt   <- function(x, d = 0) ifelse(is.na(x), "---",
                                    formatC(round(x, d), format = "f", digits = d, big.mark = ","))
 fmt1  <- function(x) fmt(x, 1)
-fmtg  <- function(x) ifelse(is.na(x), "---", ifelse(x < 0, paste0("$-$", sprintf("%.1f", abs(x))),
-                                                   sprintf("%.1f", x)))      # growth, 1 dp, true minus
-fmtsg <- function(x) ifelse(is.na(x), "---", paste0(ifelse(x >= 0, "+", "$-$"), sprintf("%.1f", abs(x))))
+# growth, 1 dp, true minus; the sign is tested after rounding so that -0.04 prints as 0.0, not -0.0
+fmtg  <- function(x) { r <- round(x, 1)
+  ifelse(is.na(r), "---", ifelse(r < 0, paste0("$-$", sprintf("%.1f", abs(r))), sprintf("%.1f", r))) }
+fmtsg <- function(x) { r <- round(x, 1)
+  ifelse(is.na(r), "---", paste0(ifelse(r >= 0, "+", "$-$"), sprintf("%.1f", abs(r)))) }
 fmtp  <- function(x) ifelse(is.na(x), "---", sprintf("%.0f", x))             # percentage, 0 dp
 
 cagr <- function(v0, v1, n) ((v1 / v0)^(1 / n) - 1) * 100
@@ -107,7 +110,10 @@ ee_gdp90  <- setNames(gdp_blk$Estonia[match(years_all, gdp_blk$year)], years_all
 lt_gdp90  <- setNames(gdp_blk$Lithuania[match(years_all, gdp_blk$year)], years_all)
 lv_gdp90  <- setNames(gdp_blk$Latvia[match(years_all, gdp_blk$year)], years_all)
 stopifnot(!anyNA(ee_gdp90))
-ee_gdp11  <- ee_gdp90 * 1.594     # Int$2011 = Int$1990 x 1.594 (Bolt & van Zanden 2020)
+# Int$2011 per Int$1990: Bolt & van Zanden (2021), Maddison Project Database 2020 companion
+# paper, p. 12 -- single definition, interpolated into every table note and the workbook
+INT11_PER_INT90 <- 1.594
+ee_gdp11  <- ee_gdp90 * INT11_PER_INT90
 
 # Sheet 3 ("Population"): header row holds "Estonia"; data below, col 2 = year
 raw_pop <- as.data.frame(read_excel(wb_path, sheet = "Population", col_names = FALSE,
@@ -133,14 +139,20 @@ g_col <- function(name) {
   v <- suppressWarnings(as.numeric(g_raw[[which(names(g_raw) == name)[1]]]))
   setNames(v[match(years_all, g_year)], years_all)
 }
-# the Datasheets copy of the Baltic series must equal the workbook series
-stopifnot(max(abs(g_col("Estonia") - ee_gdp90), na.rm = TRUE) < 0.01)
+# the Datasheets copies of the three Baltic series must equal the workbook series; the
+# count guard stops an all-NA column from passing vacuously (max of nothing is -Inf)
+check_same <- function(ds_name, wb_series) {
+  d <- abs(g_col(ds_name) - wb_series)
+  stopifnot(sum(!is.na(d)) > 100, max(d, na.rm = TRUE) < 0.01)
+}
+check_same("Estonia", ee_gdp90); check_same("Lithuania", lt_gdp90); check_same("Latvia", lv_gdp90)
 cmp <- list(
   Finland  = g_col("Finland"),
   Sweden   = g_col("Sweden"),
   Denmark  = g_col("Denmark"),
   Nordics  = g_col("Nordics (Denmark, Finland, Iceland, Norway, Sweden)"),
   Western  = g_col("Western core"),
+  Periphery = g_col("Western periphery"),   # Finland, Iceland, Ireland, Greece, Italy, Portugal, Spain
   USSR     = g_col("USSR"),
   Russia   = g_col("Russia"),
   ECE      = g_col("ECE"),
@@ -168,12 +180,20 @@ stopifnot(abs(sv["1938", "Total GVA/GDP"] - 100) < 1e-6)
 # =============================================================================
 
 bm <- read_sc("Data/estonia_benchmarks_1938_1990.csv")
+# taxes less subsidies on products (1938 only) travel in the CSV as their own row so that
+# every Table 1 line is reproducible from Data/; they are not a sector
+tax_row <- bm$sector == "Taxes less subsidies on products"
+stopifnot(sum(tax_row) == 1)
+taxes38 <- bm$value_1938_mEEK[tax_row]
+bm <- bm[!tax_row, ]
 gva38 <- sum(bm$value_1938_mEEK); gva90 <- sum(bm$value_1990_mroubles)
 bm$share38 <- bm$value_1938_mEEK / gva38 * 100
 bm$share90 <- bm$value_1990_mroubles / gva90 * 100
-taxes38 <- 17.2; gdp38_eek <- gva38 + taxes38
-bench38_int90 <- ee_gdp90["1938"]; bench90_int90 <- 8425.0
-stopifnot(abs(ee_gdp90["1990"] - bench90_int90) < 0.01)
+gdp38_eek <- gva38 + taxes38
+bench38_int90 <- ee_gdp90["1938"]; bench90_int90 <- unname(ee_gdp90["1990"])
+stopifnot(abs(bench90_int90 - 8425.0) < 0.01)   # Bolotin's 1990 benchmark, as in the dissertation
+# share of non-transport services in 1938 GVA, quoted in the Table 7 sensitivity row
+serv_share38 <- sum(bm$value_1938_mEEK[grepl("^Trade|^Public|^Other", bm$sector)]) / gva38 * 100
 
 esc <- function(s) gsub("&", "\\\\&", s)
 t1_body <- c(
@@ -256,12 +276,14 @@ write_tex(t3, "T3_overlaps.tex")
 
 sub_pds <- list(c(1913, 1938), c(1919, 1929), c(1929, 1938), c(1938, 1950), c(1950, 1968),
                 c(1968, 1989), c(1938, 1989), c(1989, 1995), c(1995, 2022))
-pd_lab  <- sapply(sub_pds, function(p) paste0(p[1], "--", substr(p[2], 3, 4)))
+# "1929--38" within a century, "1995--2022" across one
+pd_lab  <- sapply(sub_pds, function(p)
+  paste0(p[1], "--", if (p[1] %/% 100 == p[2] %/% 100) substr(p[2], 3, 4) else p[2]))
 gr_of <- function(v) sapply(sub_pds, function(p) cagr(v[as.character(p[1])], v[as.character(p[2])], p[2] - p[1]))
 gr_tab <- data.frame(
   Estonia = gr_of(ee_gdp90), Lithuania = gr_of(lt_gdp90), Finland = gr_of(cmp$Finland),
-  Nordics = gr_of(cmp$Nordics), Western = gr_of(cmp$Western), ECE = gr_of(cmp$ECE),
-  USSR = gr_of(cmp$USSR), row.names = pd_lab)
+  Nordics = gr_of(cmp$Nordics), Western = gr_of(cmp$Western), Periphery = gr_of(cmp$Periphery),
+  ECE = gr_of(cmp$ECE), USSR = gr_of(cmp$USSR), row.names = pd_lab)
 t5_body <- sprintf("%s & %s \\\\", paste0("\\textit{", pd_lab, "}"),
                    apply(gr_tab, 1, function(r) paste(fmtg(r), collapse = " & ")))
 t5_body <- append(t5_body, "\\midrule", after = 1)
@@ -269,13 +291,14 @@ t5_body <- append(t5_body, "\\midrule", after = 4)
 t5_body <- append(t5_body, "\\midrule", after = 9)
 t5 <- tex_table("tab:growth",
   "Average annual growth of GDP per capita by sub-period (per cent)",
-  "lrrrrrrr",
-  "Period & Estonia & Lithuania & Finland & Nordics & Western core & ECE & USSR \\\\",
+  "lrrrrrrrr",
+  "Period & Estonia & Lithuania & Finland & Nordics & Western core & Western periphery & ECE & USSR \\\\",
   t5_body,
   paste0("\\textit{Sources:} Estonia: see online appendix. Lithuania: \\cite{klimantas2026soviet}. ",
          "Other series: \\cite{mpd2023}, supplemented as documented in the online appendix. ",
-         "Compound annual rates between end-point years, \\intlnineteen{}. ",
-         "Nordics: Denmark, Finland, Iceland, Norway and Sweden; Western core and ECE (East-Central Europe) ",
+         "\\textit{Notes:} compound annual rates between end-point years, \\intlnineteen{}. ",
+         "Nordics: Denmark, Finland, Iceland, Norway and Sweden; Western periphery: Finland, Greece, Iceland, ",
+         "Ireland, Italy, Portugal and Spain; Western core and ECE (East-Central Europe) ",
          "as defined in the online appendix; USSR: Soviet Union within 1990 borders (former Soviet Union after 1991).")
 )
 write_tex(t5, "T5_growth.tex")
@@ -365,7 +388,7 @@ t2_rows <- list(
   c("Construction", "Domestic cement use (production plus net imports), as in Valge; 1919--21 from population",
     "Weighted index of material inputs (1987 Soviet input--output weights), following the CIA procedure", "A.3"),
   c("Transport and communications", "Railway passenger- and tonne-kilometres, merchant fleet tonnage, postal items, telegrams and telephone calls",
-    "Freight tonne-kilometres and passenger-kilometres for all modes; postal, telephone and broadcasting indicators; 1941--44 assumed to move with GDP", "A.4"),
+    "Freight tonne-kilometres and passenger-kilometres for all modes; postal, telephone and broadcasting indicators; 1941--45 interpolated between 1940 and the first post-war observation, with 1943--45 movements from Lithuanian ratios (Section~\\ref{sec:method})", "A.4"),
   c("Trade, finance and insurance", "Marketed value-added of agriculture and industry plus deflated imports (`commerce' index); finance assumed to move with commerce",
     "Soviet retail and wholesale turnover at comparable prices (archival and published); finance and insurance from employment with a productivity adjustment", "A.5"),
   c("Housing", "Valge's housing value-added for 1929--38, extrapolated with the urban population",
@@ -405,7 +428,8 @@ write_tex(t2, "T2_sources.tex")
 # =============================================================================
 
 t7_rows <- list(
-  c("Interwar, 1919--40", "Service-sector value-added in the 1938 benchmark", "Services (35\\% of GDP)", "$\\pm$3"),
+  c("Interwar, 1919--40", "Service-sector value-added in the 1938 benchmark",
+    sprintf("Services (%s\\%% of GDP)", fmtp(serv_share38)), "$\\pm$3"),
   c("", "Fixed value-added weights (`single deflation')", "All", "$\\pm$2"),
   c("", "Industrial output proxied by employment and real wages", "Industry", "$\\pm$1"),
   c("", "Taxes less subsidies not tracked annually", "All", "$\\pm$1"),
@@ -468,8 +492,10 @@ tr_ctr <- c("Estonia", "Latvia", "Lithuania", "Finland", "Denmark", "Norway", "S
             "Poland", "Czechoslovakia", "Hungary", "Germany", "United Kingdom")
 tr_win <- list(c(1924, 1929), c(1930, 1934), c(1935, 1938))
 tr_lab <- sapply(tr_win, function(w) paste0(w[1], "--", substr(w[2], 3, 4)))
+stopifnot(all(tr_ctr %in% tr_raw[[1]]))   # a renamed country must fail here, not print "---"
 tr_avg <- t(sapply(tr_ctr, function(ct) {
   row <- tr_raw[tr_raw[[1]] == ct, ]
+  stopifnot(nrow(row) == 1)
   sapply(tr_win, function(w) {
     v <- suppressWarnings(as.numeric(unlist(row[as.character(w[1]:w[2])])))
     if (all(is.na(v))) NA_real_ else mean(v, na.rm = TRUE) * 100 })
@@ -506,6 +532,13 @@ st <- data.frame(country = st_ctr,
     uni$country_name == ct & uni$year == 1930]; if (length(v)) v[1] else NA_real_ }),
   agri_gdp37 = suppressWarnings(as.numeric(sg[["Agriculture share of GDP circa 1937"]][match(st_ctr, sg[[1]])])) * 100,
   stringsAsFactors = FALSE)
+# every comparator must exist in the literacy and sectoral-GDP files; the university file has no
+# rows for the East European group and lists Germany only as "FRG", so those gaps are an explicit
+# allow-list -- any other NA means a country name drifted in Datasheets/
+stopifnot(all(st_ctr %in% lit$country), all(st_ctr %in% sg[[1]]))
+uni_expected_na <- c("Czechoslovakia", "Hungary", "Poland", "Romania", "Bulgaria", "Yugoslavia",
+                     "USSR", "Germany")
+stopifnot(setequal(st$country[is.na(st$uni_1930)], uni_expected_na))
 st <- st[order(-st$literacy, st$agri_emp), ]
 t11_body <- sprintf("%s & %s & %s & %s & %s \\\\",
                     ifelse(st$country %in% c("Estonia", "Finland"), paste0("\\textbf{", st$country, "}"), st$country),
@@ -554,7 +587,7 @@ if (file.exists(pe_path)) {
            "Geary--Khamis dollars obtained by scaling Finnish income with Colin Clark's 1925--34 ratio. ",
            "Klesment et al.: \\cite[44]{klesment2010}, Table 2.2, UNECE 2005 purchasing-power parities deflated to ",
            "1990 US dollars with the consumer price index, four sectors only. MPD: \\cite{mpd2020}, as quoted in ",
-           "\\cite[155]{norkus_restorations}, converted from \\intltwenty{} at 1.594. ",
+           "\\cite[155]{norkus_restorations}, converted from \\intltwenty{} at ", INT11_PER_INT90, ". ",
            "Diff. = previous estimate relative to this paper, per cent. `---': not available.")
   )
   write_tex(t4, "T4_previous.tex")
@@ -580,14 +613,15 @@ a1 <- c("% tab:series -- appendix table A1",
   "\\midrule\\multicolumn{8}{r}{\\textit{continued}}\\\\", "\\endfoot",
   "\\bottomrule",
   paste0("\\multicolumn{8}{p{0.96\\linewidth}}{\\footnotesize\\textit{Sources:} see online appendix. GDP per capita in ",
-         "international Geary--Khamis dollars of 1990 and of 2011 (\\intltwenty{} = \\intlnineteen{} $\\times$ 1.594, ",
-         "\\cite[12]{bolt_zanden_newgdp2021}); population in thousands, mid-year, within present-day borders. ",
+         "international Geary--Khamis dollars of 1990 and of 2011 (\\intltwenty{} = \\intlnineteen{} $\\times$ ",
+         INT11_PER_INT90, ", ",
+         "\\cite[12]{bolt_zanden_newgdp2021}); population in thousands, mid-year, within the borders of the republic to 1944 and present-day borders thereafter. ",
          "No estimates for 1914--18.}\\\\"),
   "\\endlastfoot")
 for (i in seq_len(n_rows)) {
   a1 <- c(a1, paste0(cell(if (i <= length(yrs_l)) yrs_l[i] else NA), " & ",
                      cell(if (i <= length(yrs_r)) yrs_r[i] else NA), " \\\\"))
-  if (i == 1) a1 <- c(a1, "\\midrule")
+  if (i == 1) a1 <- c(a1, "\\cmidrule(r){1-4}")   # separates 1913 from 1919 in the left block only
 }
 a1 <- c(a1, "\\end{longtable}", "\\endgroup")
 write_tex(a1, "A1_series.tex")
@@ -638,20 +672,24 @@ write_tex(a2_block(
 # =============================================================================
 
 def <- function(name, value) sprintf("\\expandafter\\def\\csname %s\\endcsname{%s}", name, value)
+# public macro names use \newcommand (not \providecommand) so that a clash with a package macro
+# stops the build instead of silently printing something else in the prose
 nm <- c("% Auto-generated by scripts/R/tables.R -- do not edit by hand",
-  "\\providecommand{\\ee}[1]{\\csname eeGDP#1\\endcsname}",
-  "\\providecommand{\\eeb}[1]{\\csname eeGDPb#1\\endcsname}",
-  "\\providecommand{\\pop}[1]{\\csname eePOP#1\\endcsname}",
-  "\\providecommand{\\gr}[2]{\\csname eeGR#1x#2\\endcsname}",
-  "\\providecommand{\\grx}[3]{\\csname GR#1x#2x#3\\endcsname}",
-  "\\providecommand{\\pctfin}[1]{\\csname eePCTfin#1\\endcsname}",
-  "\\providecommand{\\pctswe}[1]{\\csname eePCTswe#1\\endcsname}",
-  "\\providecommand{\\pctwc}[1]{\\csname eePCTwc#1\\endcsname}",
-  "\\providecommand{\\pctussr}[1]{\\csname eePCTussr#1\\endcsname}",
-  "\\providecommand{\\pctlt}[1]{\\csname eePCTlt#1\\endcsname}",
-  "\\providecommand{\\pctlv}[1]{\\csname eePCTlv#1\\endcsname}",
-  "\\providecommand{\\cum}[2]{\\csname eeCUM#1x#2\\endcsname}",
+  "\\newcommand{\\ee}[1]{\\csname eeGDP#1\\endcsname}",
+  "\\newcommand{\\eeb}[1]{\\csname eeGDPb#1\\endcsname}",
+  "\\newcommand{\\pop}[1]{\\csname eePOP#1\\endcsname}",
+  "\\newcommand{\\gr}[2]{\\csname eeGR#1x#2\\endcsname}",
+  "\\newcommand{\\grx}[3]{\\csname GR#1x#2x#3\\endcsname}",
+  "\\newcommand{\\pctfin}[1]{\\csname eePCTfin#1\\endcsname}",
+  "\\newcommand{\\pctswe}[1]{\\csname eePCTswe#1\\endcsname}",
+  "\\newcommand{\\pctwc}[1]{\\csname eePCTwc#1\\endcsname}",
+  "\\newcommand{\\pctussr}[1]{\\csname eePCTussr#1\\endcsname}",
+  "\\newcommand{\\pctlt}[1]{\\csname eePCTlt#1\\endcsname}",
+  "\\newcommand{\\pctlv}[1]{\\csname eePCTlv#1\\endcsname}",
+  "\\newcommand{\\cum}[2]{\\csname eeCUM#1x#2\\endcsname}",
   def("eeGDPbench1990", fmt(bench90_int90)))
+# Latvia 1940-94 is reserved for a separate paper: mask it in the macros exactly as in Table 8
+lv_masked <- lv_gdp90; lv_masked[years_all > 1938 & years_all < 1995] <- NA
 for (y in years_all) nm <- c(nm,
   def(paste0("eeGDP", y), fmt(ee_gdp90[as.character(y)])),
   def(paste0("eeGDPb", y), fmt(ee_gdp11[as.character(y)])),
@@ -661,7 +699,7 @@ for (y in years_all) nm <- c(nm,
   def(paste0("eePCTwc", y), fmtp(ee_gdp90[as.character(y)] / cmp$Western[as.character(y)] * 100)),
   def(paste0("eePCTussr", y), fmtp(ee_gdp90[as.character(y)] / cmp$USSR[as.character(y)] * 100)),
   def(paste0("eePCTlt", y), fmtp(ee_gdp90[as.character(y)] / lt_gdp90[as.character(y)] * 100)),
-  def(paste0("eePCTlv", y), fmtp(ee_gdp90[as.character(y)] / lv_gdp90[as.character(y)] * 100)))
+  def(paste0("eePCTlv", y), fmtp(ee_gdp90[as.character(y)] / lv_masked[as.character(y)] * 100)))
 all_pairs <- c(sub_pds, list(c(1913, 1919), c(1919, 1938), c(1940, 1944), c(1944, 1950), c(1950, 1973), c(1950, 1978),
                              c(1973, 1989), c(1938, 1968), c(1987, 1989), c(1968, 1973), c(1980, 1989)))
 for (p in all_pairs) {
@@ -677,22 +715,31 @@ for (s in sec_rows) {
   for (p in sec_pds) nm <- c(nm, def(paste0("eeSGR", key, "x", p[1], "x", p[2]),
                                      fmtg(sec_gr[s, which(sapply(sec_pds, identical, p))])))
 }
-nm <- c(nm, "\\providecommand{\\speak}[1]{\\csname eePEAK#1\\endcsname}",
-        "\\providecommand{\\sregain}[1]{\\csname eeREGAIN#1\\endcsname}",
-        "\\providecommand{\\sgr}[3]{\\csname eeSGR#1x#2x#3\\endcsname}")
-# growth of total GDP (volume index) over selected spans
+nm <- c(nm, "\\newcommand{\\speak}[1]{\\csname eePEAK#1\\endcsname}",
+        "\\newcommand{\\sregain}[1]{\\csname eeREGAIN#1\\endcsname}",
+        "\\newcommand{\\sgr}[3]{\\csname eeSGR#1x#2x#3\\endcsname}")
+# growth of total GDP (volume index) over selected spans; unique() because sec_pds overlaps the list
 tot <- sv[["Total GVA/GDP"]]; names(tot) <- rownames(sv)
-for (p in c(sec_pds, list(c(1950, 1978), c(1950, 1973), c(1973, 1989), c(1938, 1989), c(1919, 1938), c(1989, 1991)))) {
+tot_pairs <- unique(c(sec_pds, list(c(1950, 1978), c(1950, 1973), c(1973, 1989), c(1938, 1989),
+                                    c(1919, 1938), c(1989, 1991))))
+for (p in tot_pairs) {
   a <- as.character(p[1]); b <- as.character(p[2])
   nm <- c(nm, def(paste0("eeTGR", a, "x", b), fmtg(cagr(tot[a], tot[b], p[2] - p[1]))))
 }
-nm <- c(nm, "\\providecommand{\\tgr}[2]{\\csname eeTGR#1x#2\\endcsname}")
+nm <- c(nm, "\\newcommand{\\tgr}[2]{\\csname eeTGR#1x#2\\endcsname}")
 # first year after 1989 at or above the 1989 level
 nm <- c(nm, def("eeREGAINnineteen", min(years_all[years_all > 1989 & ee_gdp90 >= ee_gdp90["1989"]])))
 # trough of the transition and war
 tr_idx <- which.min(ee_gdp90[as.character(1989:1999)]); tr_year <- (1989:1999)[tr_idx]
 nm <- c(nm, def("eeTROUGHyear", tr_year), def("eeTROUGHval", fmt(ee_gdp90[as.character(tr_year)])),
         def("eeTROUGHpct", fmtp((1 - ee_gdp90[as.character(tr_year)] / ee_gdp90["1989"]) * 100)))
+# \def overwrites silently, so a name produced twice with different values would never be
+# noticed in the prose: fail here instead
+macro_names <- sub("^\\\\expandafter\\\\def\\\\csname ([^\\\\]+)\\\\endcsname.*$", "\\1",
+                   grep("^\\\\expandafter\\\\def", nm, value = TRUE))
+if (anyDuplicated(macro_names))
+  stop("numbers.tex: duplicate macro definitions: ",
+       paste(unique(macro_names[duplicated(macro_names)]), collapse = ", "))
 write_tex(nm, "numbers.tex")
 
 # =============================================================================
@@ -703,15 +750,28 @@ cite <- paste0("Klimantas, A. and Klesment, M. (forthcoming). New GDP series for
                "a Finnish miracle that never was. Online data appendix.")
 desc <- data.frame(Item = c("Source", "Short citation", "Use", "", "Sheets", "1. Population",
                             "2. Sectoral indices", "3. GDP per capita", "4. Benchmarks", "5. Overlaps", "",
-                            "International comparability"),
+                            "International comparability", "", "Generated by", "R version", "Generated on"),
   Content = c(cite, "Klimantas and Klesment (forthcoming)", "USE PERMITTED ONLY WITH THE SOURCE INDICATION", "",
-              "", "Mid-year population, thousands, present-day borders, 1913 and 1919-2022",
+              "", "Mid-year population, thousands, 1913 and 1919-2022 (borders of the republic to 1944, present-day borders thereafter)",
               "Constant-price value-added volume indices, 1938 = 100, 1919-1995",
               "GDP per capita in international 1990 and 2011 Geary-Khamis dollars, 1913 and 1919-2022",
-              "1938 and 1990 benchmark GDP by sector at current prices",
+              "1938 and 1990 benchmark GDP by sector at current prices (taxes and totals as in Table 1)",
               "Overlapping estimates at the 1940 and 1991 splicing points", "",
-              "Int$2011 = Int$1990 x 1.594, compatible with the Maddison Project Database (version 2023)"),
+              paste0("Int$2011 = Int$1990 x ", INT11_PER_INT90, ", compatible with the Maddison Project Database (version 2023)"),
+              "", "scripts/R/tables.R (repository: latvia-estonia-gdp-paper)", R.version.string,
+              format(Sys.Date(), "%Y-%m-%d")),
   stringsAsFactors = FALSE)
+# Table 1 totals, so that the workbook reproduces every line of the printed benchmark table
+bm_sheet <- rbind(
+  data.frame(Sector = bm$sector, v38 = bm$value_1938_mEEK, s38 = round(bm$share38, 1),
+             v90 = bm$value_1990_mroubles, s90 = round(bm$share90, 1)),
+  data.frame(Sector = c("Gross value-added", "Taxes less subsidies on products", "GDP at market prices",
+                        "GDP per capita, national currency (kroon / roubles)"),
+             v38 = c(gva38, taxes38, gdp38_eek, gdp38_eek * 1e6 / (ee_pop["1938"] * 1e3)),
+             s38 = c(100, NA, NA, NA),
+             v90 = c(gva90, NA, gva90, gva90 * 1e6 / (ee_pop["1990"] * 1e3)),
+             s90 = c(100, NA, NA, NA)))
+names(bm_sheet) <- c("Sector", "1938, m. EEK", "1938, %", "1990, m. roubles", "1990, %")
 wb <- createWorkbook()
 addWorksheet(wb, "0. Description"); writeData(wb, 1, desc)
 addWorksheet(wb, "1. Population")
@@ -722,9 +782,7 @@ addWorksheet(wb, "3. GDP per capita")
 writeData(wb, 4, data.frame(Year = years_all, `Int$1990` = round(ee_gdp90, 1), `Int$2011` = round(ee_gdp11, 1),
                             check.names = FALSE))
 addWorksheet(wb, "4. Benchmarks")
-writeData(wb, 5, data.frame(Sector = bm$sector, `1938, m. EEK` = bm$value_1938_mEEK, `1938, %` = round(bm$share38, 1),
-                            `1990, m. roubles` = bm$value_1990_mroubles, `1990, %` = round(bm$share90, 1),
-                            check.names = FALSE))
+writeData(wb, 5, bm_sheet)
 addWorksheet(wb, "5. Overlaps")
 writeData(wb, 6, data.frame(Year = ov$year, Splice = ov$overlap, `Earlier-benchmark series` = round(ov$a, 1),
                             `Later-benchmark series` = round(ov$b, 1), `Difference, %` = ov$diff_pct,
