@@ -239,12 +239,28 @@ i37 <- ov$overlap == 1940
 r <- 1 + ov$diff_pct[i37] / 100
 ov$a[i37] <- ifelse(ov$year[i37] == 1940, ov$final[i37] * 2 / (1 + r), ov$final[i37])
 ov$b[i37] <- ov$a[i37] * r
-# 1990-95: a = occupation series, b = adjusted MPD (2011-based) series; diff = (a - b)/a
+# 1990-95: a = Soviet-period series, b = modern (2011-based) series; diff = (a - b)/a.
+# 1990: b is recovered from the dissertation difference (the final series is Bolotin's level).
+# 1991-95: a is recomputed from the appendix GDP index and population, because the
+# dissertation differences for 1992-95 came from an earlier vintage of those indices and
+# no longer reproduce from Tables A1-A2; b is the final series from 1992 and, in the 1991
+# splice year, 2 * final - a. The CSV values for 1991-95 are therefore overridden.
 i90 <- ov$overlap == 1991
-r <- 1 - ov$diff_pct[i90] / 100
-ov$a[i90] <- ifelse(ov$year[i90] == 1990, ov$final[i90],
-                    ifelse(ov$year[i90] == 1991, ov$final[i90] * 2 / (1 + r), ov$final[i90] / r))
-ov$b[i90] <- ov$a[i90] * r
+tot_idx <- sv[["Total GVA/GDP"]]; names(tot_idx) <- rownames(sv)
+sov_level <- function(y) unname(bench90_int90 * tot_idx[as.character(y)] / tot_idx["1990"] *
+                                  ee_pop["1990"] / ee_pop[as.character(y)])
+for (k in which(i90)) {
+  y <- ov$year[k]
+  if (y == 1990) {
+    ov$a[k] <- ov$final[k]; ov$b[k] <- ov$a[k] * (1 - ov$diff_pct[k] / 100)
+  } else {
+    ov$a[k] <- sov_level(y)
+    ov$b[k] <- if (y == 1991) 2 * ov$final[k] - ov$a[k] else ov$final[k]
+    ov$diff_pct[k] <- round((ov$a[k] - ov$b[k]) / ov$a[k] * 100, 1)
+  }
+}
+# the recomputed 1991 difference must agree with the dissertation's -0.7, or the method differs
+stopifnot(abs(ov$diff_pct[ov$year == 1991] - (-0.7)) < 0.15)
 ov$grade <- feinstein(ov$diff_pct)
 
 t3_body <- c(
@@ -299,8 +315,10 @@ t5 <- tex_table("tab:growth",
          "Other series: \\cite{mpd2023}, supplemented as documented in the online appendix. ",
          "\\textit{Notes:} compound annual rates between end-point years, \\intlnineteen{}. ",
          "Nordics: Denmark, Finland, Iceland, Norway and Sweden; Western periphery: Finland, Greece, Iceland, ",
-         "Ireland, Italy, Portugal and Spain; Western core and ECE (East-Central Europe) ",
-         "as defined in the online appendix; USSR: Soviet Union within 1990 borders (former Soviet Union after 1991).")
+         "Ireland, Italy, Portugal and Spain; Western core: Austria, Belgium, Denmark, France, Germany (West Germany ",
+         "1950--97), the Netherlands, Norway, Sweden, Switzerland and the UK; ECE (East-Central Europe): Bulgaria, ",
+         "Czechoslovakia, Hungary, Poland, Romania and Yugoslavia; USSR: Soviet Union within 1990 borders ",
+         "(former Soviet Union after 1991).")
 )
 write_tex(t5, "T5_growth.tex")
 
@@ -734,6 +752,9 @@ nm <- c(nm, def("eeREGAINnineteen", min(years_all[years_all > 1989 & ee_gdp90 >=
 tr_idx <- which.min(ee_gdp90[as.character(1989:1999)]); tr_year <- (1989:1999)[tr_idx]
 nm <- c(nm, def("eeTROUGHyear", tr_year), def("eeTROUGHval", fmt(ee_gdp90[as.character(tr_year)])),
         def("eeTROUGHpct", fmtp((1 - ee_gdp90[as.character(tr_year)] / ee_gdp90["1989"]) * 100)))
+# absolute overlap differences by year, for the prose of Section IV (\ovd{1992} etc.)
+for (k in seq_len(nrow(ov))) nm <- c(nm, def(paste0("eeOVD", ov$year[k]), fmtp(abs(ov$diff_pct[k]))))
+nm <- c(nm, "\\newcommand{\\ovd}[1]{\\csname eeOVD#1\\endcsname}")
 # \def overwrites silently, so a name produced twice with different values would never be
 # noticed in the prose: fail here instead
 macro_names <- sub("^\\\\expandafter\\\\def\\\\csname ([^\\\\]+)\\\\endcsname.*$", "\\1",
