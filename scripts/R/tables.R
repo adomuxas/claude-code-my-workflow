@@ -220,7 +220,8 @@ t1 <- tex_table("tab:benchmarks",
          "with services re-estimated as described in Section~\\ref{sec:method} (see online appendix). ",
          "1990: \\cite[184--6]{bolotin1992}, converted to roubles with Bolotin's sectoral purchasing-power parities; ",
          "services other than trade and transport split using the 1987 Soviet input--output table (\\cite{wbinputoutput1987}). ",
-         "The 1990 figure includes taxes less subsidies within sectoral values. Population: mid-year.")
+         "\\textit{Notes:} the 1990 figure includes taxes less subsidies within sectoral values (`---': included in ",
+         "sectoral values). Population: mid-year.")
 )
 write_tex(t1, "T1_benchmarks.tex")
 
@@ -263,7 +264,7 @@ t3 <- tex_table("tab:overlaps",
   t3_body,
   paste0("\\textit{Sources:} see online appendix; adjusted MPD series from \\cite{mpd2023} with 1990--2010 growth ",
          "replaced by World Bank constant-price growth backcast from the 2011 benchmark (\\cite{wdi2024}). ",
-         "Difference = (later $-$ earlier)/earlier in panel (a) and (earlier $-$ later)/earlier in panel (b), ",
+         "\\textit{Notes:} Difference = (later $-$ earlier)/earlier in panel (a) and (earlier $-$ later)/earlier in panel (b), ",
          "so that a positive number always means that the 1990-based series is the higher one. ",
          "Feinstein's grades: firm ${<}5$ per cent, good 5--15, rough 15--25, conjectural ${>}25$ (\\cite[21]{feinstein1972}). ",
          "$^{\\dagger}$~Splice year: the final series takes the arithmetic average of the two estimates.")
@@ -322,7 +323,7 @@ t8 <- tex_table("tab:relative",
   t8_body,
   paste0("\\textit{Sources:} Estonia: see online appendix. Lithuania: \\cite{klimantas2026soviet}; Latvia: ",
          "\\cite{Klimantas2024} (1940--89 not shown). Finland, Sweden, Western core and USSR: \\cite{mpd2023} ",
-         "and online appendix. USSR within 1990 borders; 1995 and 2022 refer to the former Soviet Union aggregate.")
+         "and online appendix. \\textit{Notes:} USSR within 1990 borders; 1995 and 2022 refer to the former Soviet Union aggregate.")
 )
 write_tex(t8, "T8_relative.tex")
 
@@ -360,7 +361,7 @@ t6 <- tex_table("tab:sectoral",
   c(paste0("Sector & ", paste(sec_lab, collapse = " & "), " & 1938 level & Peak \\\\"),
     "& & & & & & & regained in & year \\\\"),
   t6_body,
-  paste0("\\textit{Sources:} see online appendix. Compound annual growth between end-point years of constant-price ",
+  paste0("\\textit{Sources:} see online appendix. \\textit{Notes:} compound annual growth between end-point years of constant-price ",
          "value-added indices (1938 = 100). Industrial branch indices are available from 1938 only. ",
          "`1938 level regained': first post-war year (1945 or later) in which the index is at or above its 1938 value; ",
          "`Peak year': year of the highest index value up to 1990. Public services comprise administration, defence, ",
@@ -380,15 +381,15 @@ t2_rows <- list(
   c("Crops", "Physical output of 15 crops weighted by 1938 value-added (Valge; 1939 agricultural survey); yields from \\cite{klesment2007}",
     "Physical output; weights from World Bank (1996) and Eurostat agricultural accounts; 1945--65 minor crops interpolated between quinquennial observations", "A.1"),
   c("Livestock", "Physical output of meat, milk, eggs and wool; 1938 value-added weights",
-    "Physical output; during 1941--44 animal numbers multiplied by pre-war yields", "A.1"),
+    "Physical output; during 1941--4 animal numbers multiplied by pre-war yields", "A.1"),
   c("Forestry and fishing", "Timber removals and fish catch; timber for 1919--21 and fish for 1919--27 extrapolated from the crops-and-livestock index",
-    "Timber removals and fish catch; 1941--44 interpolated", "A.1"),
+    "Timber removals and fish catch; 1941--4 interpolated", "A.1"),
   c("Industry", "Employment adjusted for real wages (no usable annual output data; Valge's current-price series cannot be deflated by branch)",
-    "101 physical product series in 11 branches; branch weights from the 1990 benchmark, product weights from 1986 archival output data (ERA)", "A.2"),
+    "101 physical product series in 11 branches; branch weights from the 1990 benchmark, product weights from 1986 archival output data (Estonian National Archives)", "A.2"),
   c("Construction", "Domestic cement use (production plus net imports), as in Valge; 1919--21 from population",
     "Weighted index of material inputs (1987 Soviet input--output weights), following the CIA procedure", "A.3"),
   c("Transport and communications", "Railway passenger- and tonne-kilometres, merchant fleet tonnage, postal items, telegrams and telephone calls",
-    "Freight tonne-kilometres and passenger-kilometres for all modes; postal, telephone and broadcasting indicators; 1941--45 interpolated between 1940 and the first post-war observation, with 1943--45 movements from Lithuanian ratios (Section~\\ref{sec:method})", "A.4"),
+    "Freight tonne-kilometres and passenger-kilometres for all modes; postal, telephone and broadcasting indicators; 1941--5 interpolated between 1940 and the first post-war observation, with 1943--5 movements from Lithuanian ratios (Section~\\ref{sec:method})", "A.4"),
   c("Trade, finance and insurance", "Marketed value-added of agriculture and industry plus deflated imports (`commerce' index); finance assumed to move with commerce",
     "Soviet retail and wholesale turnover at comparable prices (archival and published); finance and insurance from employment with a productivity adjustment", "A.5"),
   c("Housing", "Valge's housing value-added for 1929--38, extrapolated with the urban population",
@@ -417,7 +418,7 @@ t2 <- c("% tab:sources",
          "agricultural surveys. Soviet period: \\textit{Eesti NSV rahvamajandus} statistical yearbooks (1957--89), ",
          "\\textit{Eesti statistika aastaraamat} (1990--98), Estonian National Archives (ERA, fond R-10 and R-1969), ",
          "German occupation statistical bulletins (\\textit{Statistische Berichte f\\\"ur das Ostland}, 1942--44), ",
-         "and World Bank (1993, 1996). Full source lists by series are given in the online appendix, sections A.1--A.6."),
+         "and World Bank (1993, 1996). Full source lists by series are given in the online appendix, sections A.1--A.7."),
   "\\end{tablenotes}",
   "\\end{threeparttable}",
   "\\end{table}")
@@ -442,7 +443,7 @@ t7_rows <- list(
   c("", "Hidden inflation in comparable-price trade turnover", "Trade", "+2"),
   c("", "Size of Soviet forces stationed in Estonia unknown", "Defence", "$\\pm$5"),
   c("", "No productivity adjustment in employment-based services", "Services", "$-$10"),
-  c("", "Wartime movements 1943--45 partly borrowed from Lithuania", "All (1941--45 only)", "15--25")
+  c("", "Wartime movements 1943--5 partly borrowed from Lithuania", "All (1941--5 only)", "15--25")
 )
 t7_body <- sapply(t7_rows, function(r) sprintf("%s & %s & %s & %s \\\\", r[1], r[2], r[3], r[4]))
 t7_body <- append(t7_body, "\\midrule", after = 7)
@@ -453,7 +454,7 @@ t7 <- tex_table("tab:sensitivity",
     "& & & (\\% of GDP) \\\\"),
   t7_body,
   paste0("\\textit{Sources:} authors' assessment; see Section~\\ref{sec:limitations} and the online appendix for the ",
-         "derivation of each bound. Signed entries indicate the direction in which the published series would be revised ",
+         "derivation of each bound. \\textit{Notes:} signed entries indicate the direction in which the published series would be revised ",
          "if the bias were corrected; $\\pm$ entries are symmetric. The bounds are not additive."),
   size = "\\footnotesize", colsep = "4pt"
 )
@@ -476,14 +477,14 @@ t9_body <- sprintf("%s & %s & %s \\\\",
                    apply(iw_tab[ord, ], 1, function(r) paste(fmt(r), collapse = " & ")),
                    apply(t(iw_g)[ord, ], 1, function(r) paste(fmtg(r), collapse = " & ")))
 t9 <- tex_table("tab:interwar",
-  "GDP per capita in Estonia and European comparators, 1913--1938",
+  "GDP per capita in Estonia and European comparators, 1913--38",
   "lrrrrrrrr",
   c("& \\multicolumn{5}{c}{\\intlnineteen{}} & \\multicolumn{3}{c}{Growth, \\% p.a.} \\\\",
     "\\cmidrule(lr){2-6}\\cmidrule(lr){7-9}",
     paste0("Country & ", paste(iw_years, collapse = " & "), " & 1919--29 & 1929--38 & 1913--38 \\\\")),
   t9_body,
   paste0("\\textit{Sources:} Estonia: see online appendix. Latvia and Lithuania: \\cite{Klimantas2024}; ",
-         "\\cite{klimantas2023lithuania}. Other countries: \\cite{mpd2023}. Countries ordered by 1938 level.")
+         "\\cite{klimantas2023lithuania}. Other countries: \\cite{mpd2023}. \\textit{Notes:} countries ordered by 1938 level.")
 )
 write_tex(t9, "T9_interwar.tex")
 
@@ -510,7 +511,7 @@ t10 <- tex_table("tab:trade",
   t10_body,
   paste0("\\textit{Sources:} see the online appendix for the compilation of trade and GDP series ",
          "(\\cite{mitchelstat}; \\cite{mpd2023}; national statistical yearbooks). ",
-         "Unweighted averages of annual ratios; missing years omitted.")
+         "\\textit{Notes:} unweighted averages of annual ratios; missing years omitted.")
 )
 write_tex(t10, "T10_trade.tex")
 
@@ -553,7 +554,7 @@ t11 <- tex_table("tab:structure",
   paste0("\\textit{Sources:} literacy: \\cite{cronin_literacy}; \\cite[246--77]{kirk_literacy}; ",
          "\\cite[528]{bostonencikl_rast}. Agricultural employment: \\cite[181]{morysinterwarinmorys2021}; ",
          "\\cite{mitchelstat}; \\cite[395, 409, 418]{sov_labour1939}. University students and agricultural ",
-         "shares of GDP: see online appendix, section A.7. Countries ordered by literacy; a literacy value of 97.5 ",
+         "shares of GDP: see online appendix, section A.7. \\textit{Notes:} countries ordered by literacy; a literacy value of 97.5 ",
          "denotes near-universal literacy where the source gives no census figure. `---': not available."),
   size = "\\footnotesize", colsep = "4pt"
 )
@@ -588,7 +589,7 @@ if (file.exists(pe_path)) {
            "Klesment et al.: \\cite[44]{klesment2010}, Table 2.2, UNECE 2005 purchasing-power parities deflated to ",
            "1990 US dollars with the consumer price index, four sectors only. MPD: \\cite{mpd2020}, as quoted in ",
            "\\cite[155]{norkus_restorations}, converted from \\intltwenty{} at ", INT11_PER_INT90, ". ",
-           "Diff. = previous estimate relative to this paper, per cent. `---': not available.")
+           "\\textit{Notes:} Diff. = previous estimate relative to this paper, per cent. `---': not available.")
   )
   write_tex(t4, "T4_previous.tex")
 } else {
@@ -612,7 +613,7 @@ a1 <- c("% tab:series -- appendix table A1",
   "\\multicolumn{8}{l}{\\textit{Table~\\ref{tab:series} (continued)}}\\\\", "\\toprule", a1_hdr, "\\midrule", "\\endhead",
   "\\midrule\\multicolumn{8}{r}{\\textit{continued}}\\\\", "\\endfoot",
   "\\bottomrule",
-  paste0("\\multicolumn{8}{p{0.96\\linewidth}}{\\footnotesize\\textit{Sources:} see online appendix. GDP per capita in ",
+  paste0("\\multicolumn{8}{p{0.96\\linewidth}}{\\footnotesize\\textit{Sources:} see online appendix. \\textit{Notes:} GDP per capita in ",
          "international Geary--Khamis dollars of 1990 and of 2011 (\\intltwenty{} = \\intlnineteen{} $\\times$ ",
          INT11_PER_INT90, ", ",
          "\\cite[12]{bolt_zanden_newgdp2021}); population in thousands, mid-year, within the borders of the republic to 1944 and present-day borders thereafter. ",
@@ -640,7 +641,7 @@ a2_block <- function(cols, labels, label, caption, widths) {
     paste0("\\midrule\\multicolumn{", length(cols) + 1, "}{r}{\\textit{continued}}\\\\"), "\\endfoot",
     "\\bottomrule",
     paste0("\\multicolumn{", length(cols) + 1, "}{p{0.96\\linewidth}}{\\scriptsize\\textit{Sources:} see online appendix. ",
-           "Constant-price value-added volume indices, 1938 = 100; `---' not available. ",
+           "\\textit{Notes:} constant-price value-added volume indices, 1938 = 100; `---': not available. ",
            "Commerce$^{*}$: interwar index of trade, finance and insurance combined.}\\\\"),
     "\\endlastfoot")
   for (i in seq_along(sv_years)) {
@@ -654,7 +655,7 @@ write_tex(a2_block(
     "Other light industries", "Heavy industries", "Industry total", "Construction", "Secondary sector total"),
   c("Crops", "Livestock", "Forestry, fishing", "Primary", "Food", "Textiles", "Other light", "Heavy",
     "Industry", "Construction", "Secondary"),
-  "tab:appsec1", "Sectoral volume indices, Estonia 1919--1995: primary and secondary sectors"),
+  "tab:appsec1", "Sectoral volume indices, Estonia 1919--95: primary and secondary sectors"),
   "A2_sectoral_a.tex")
 write_tex(a2_block(
   c("Transport & communications", "Trade, accommodation & food service", "Commerce*", "Housing",
@@ -662,7 +663,7 @@ write_tex(a2_block(
     "Education & culture", "Other services", "Tertiary sector total", "Total GVA/GDP"),
   c("Transport, comm.", "Trade", "Commerce$^{*}$", "Housing", "Finance", "Administration", "Defence",
     "Health", "Education", "Other", "Tertiary", "GDP"),
-  "tab:appsec2", "Sectoral volume indices, Estonia 1919--1995: services and total GDP"),
+  "tab:appsec2", "Sectoral volume indices, Estonia 1919--95: services and total GDP"),
   "A2_sectoral_b.tex")
 
 # =============================================================================
