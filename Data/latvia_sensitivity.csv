@@ -1,0 +1,13 @@
+source;years;sectors;bias;impact
+Incorrect service-sector evaluation;1919--40;Services;$\pm$10;$\pm$3
+Fixed value-added weights (single deflation);1919--40;All;$\pm$2;$\pm$2
+Labour productivity and real-wage estimates;1919--29;Industry;$\pm$10;$\pm$2
+Missing annual product-tax data;1919--40;Product taxes;$\pm$9;$\pm$1
+No productivity adjustment in employment series;1919--40;Public services;$\pm$10;$\pm$2
+Population movement as proxy;1919--40;Various service subsectors;$\pm$30;$\pm$1
+Incorrect service-sector evaluation;1940--90;Services (excl. transport);$\pm$10;$\pm$4
+Missing product-tax data;1940--90;Total;$-$0.5;$-$0.5
+Fixed value-added weights (single deflation);1940--90;All;$-$14;$-$14
+Hidden inflation in trade series;1945--90;Trade, finance and insurance;$+$59;$+$2
+Unknown Soviet military size;1941--89;Defence;$\pm$20;$\pm$7
+No productivity adjustment in employment series;1940--90;Housing, education, health, science, administration;$-$147;$-$10

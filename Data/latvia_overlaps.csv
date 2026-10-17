@@ -1,0 +1,11 @@
+year;overlap;diff_pct;note
+1937;1940;1.7;(1990-based minus 1935-based)/1935-based
+1938;1940;3.2;
+1939;1940;-1.9;
+1940;1940;-0.7;splice year, final = average
+1990;1991;-2.9;(1990-based minus 2011-based)/1990-based
+1991;1991;2.5;splice year, final = average
+1992;1991;26.6;recomputed in R from appendix index
+1993;1991;17.1;recomputed in R from appendix index
+1994;1991;12.9;recomputed in R from appendix index
+1995;1991;13.8;recomputed in R from appendix index

@@ -1,0 +1,16 @@
+war;country;population_pct;gdp_pct;gdppc_pct;source
+WWI;Austria;-5;-38;-35;MPD 2023
+WWI;Belgium;0;-32;-32;MPD 2023
+WWI;France;-7;-25;-31;MPD 2023
+WWI;USSR;-1;-60;-59;MPD 2023
+WWI;Lithuania;-30;-57;-38;this paper (recomputed)
+WWI;Latvia;-41;-63;-37;this paper (recomputed)
+WWI;Estonia;-9;-29;-22;this paper (recomputed)
+WWII;Greece;3;-64;-65;MPD 2023
+WWII;Germany;-6;-58;-56;MPD 2023
+WWII;Austria;1;-51;-52;MPD 2023
+WWII;Netherlands;6;-47;-50;MPD 2023
+WWII;Poland;-23;-57;-49;MPD 2023
+WWII;Lithuania;-5;-48;-48;this paper (actual borders)
+WWII;Latvia;-23;-40;-28;this paper (recomputed)
+WWII;Estonia;-20;-42;-29;this paper (recomputed)
