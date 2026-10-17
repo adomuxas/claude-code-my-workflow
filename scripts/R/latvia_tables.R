@@ -539,8 +539,8 @@ t9 <- tex_table("tab:structure",
          "\\textit{Sources:} GDP shares: this paper (benchmarks of Table~\\ref{tab:benchmarks}), \\textcite{klimantas2019}, \\textcite{klimantas2025estonia}, ",
          "\\textcite[179]{morysinterwarinmorys2021}, \\textcite{mitchelstat}, \\textcite[158]{portugal_economy}, \\textcite[24]{jonsson1999}, ",
          "\\textcite[460]{ivanov2012gdp}, \\textcite[184]{bolotin1992}, \\textcite[182]{un_yearbook1993}, \\textcite[346]{cameh_sectoral1945}; ",
-         "employment and industrial growth: \\textcite[181]{morysinterwarinmorys2021}, \\textcite{mitchelstat}, \\textcite[2]{ostlandinzahlen}, ",
-         "\\textcite[86]{east_industry_periphery1871}; trade: \\textcite{lidaexportslv,lidaimportslv}, \\textcite{worldtrade1949}, \\textcite[123, 161]{balticstates1938}, ",
+         "employment and industrial growth: \\textcite{mitchelstat}, \\textcite[181]{morysinterwarinmorys2021} (Czechoslovak employment), \\textcite[2]{ostlandinzahlen}, ",
+         "\\textcite[86]{east_industry_periphery1871}; trade: \\textcite{lidaexportslv,lidaimportslv}, \\textcite{worldtrade1949}, \\textcite[122, 155]{balticstates1938}, ",
          "\\textcite[21]{jonsson1999}."),
   size = "\\scriptsize", colsep = "2pt")
 # eleven columns exceed the text width even at \scriptsize: scale the tabular to \textwidth
@@ -967,6 +967,8 @@ lt_over_ee <- last_year_where(ee_gdp90 > lt_gdp90, 1990, last_year) + 1; def("lt
 def("warLVoneBpop", fmtpm(war_lv1$population_pct)); def("warLVoneBgdp", fmtpm(war_lv1$gdp_pct)); def("warLVoneBpc", fmtpm(war_lv1$gdppc_pct))
 def("warLVtwoBpop", fmtpm(war_lv2$population_pct)); def("warLVtwoBgdp", fmtpm(war_lv2$gdp_pct)); def("warLVtwoBpc", fmtpm(war_lv2$gdppc_pct))
 reg13 <- as.numeric(names(lv_gdp90)[as.numeric(names(lv_gdp90)) > 1913 & lv_gdp90 >= lv_gdp90["1913"]][1]); def("lvREGAINthirteen", reg13)
+lt_reg13 <- as.numeric(names(lt_gdp90)[as.numeric(names(lt_gdp90)) > 1913 & lt_gdp90 >= lt_gdp90["1913"]][1]); def("ltREGAINthirteen", lt_reg13)
+ee_reg13 <- as.numeric(names(ee_gdp90)[as.numeric(names(ee_gdp90)) > 1913 & ee_gdp90 >= ee_gdp90["1913"]][1]); def("eeREGAINthirteen", ee_reg13)
 reg38 <- as.numeric(names(lv_gdp90)[as.numeric(names(lv_gdp90)) > 1940 & lv_gdp90 >= lv_gdp90["1938"]][1]); def("lvREGAINthirtyeight", reg38)
 sovpeak <- as.numeric(names(which.max(lv_gdp90[as.character(1945:1990)]))); def("lvSOVPEAKyear", sovpeak)
 # Baltic ranking of Latvia (1 = richest) in a year
