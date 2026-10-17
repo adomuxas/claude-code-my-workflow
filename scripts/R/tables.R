@@ -339,8 +339,10 @@ t8 <- tex_table("tab:relative",
     "\\cmidrule(lr){3-8}",
     "Year & (\\intlnineteen{}) & Finland & Sweden & Western core & USSR & Lithuania & Latvia \\\\"),
   t8_body,
-  paste0("\\textit{Sources:} Estonia: see online appendix. Lithuania: \\cite{klimantas2026soviet}; Latvia: ",
-         "\\cite{Klimantas2024} (1940--89 not shown). Finland, Sweden, Western core and USSR: \\cite{mpd2023} ",
+  paste0("\\textit{Sources:} Estonia: see online appendix. Lithuania: \\cite{klimantas2026soviet}. Latvia (1940--89 not shown): ",
+         "1913, \\cite[603]{norkusmark2021}; 1919--38, \\cite[316]{klimantas2025thesis}, table E.1, the series published for ",
+         "1920--39 in \\cite{Klimantas2024}; 1995 and 2022, \\cite[320]{klimantas2025thesis}, table E.5 (\\cite{mpd2023} with ",
+         "1990--2010 growth from \\cite{wdi2024}). Finland, Sweden, Western core and USSR: \\cite{mpd2023} ",
          "and online appendix. \\textit{Notes:} USSR within 1990 borders; 1995 and 2022 refer to the former Soviet Union aggregate.")
 )
 write_tex(t8, "T8_relative.tex")
@@ -501,8 +503,10 @@ t9 <- tex_table("tab:interwar",
     "\\cmidrule(lr){2-6}\\cmidrule(lr){7-9}",
     paste0("Country & ", paste(iw_years, collapse = " & "), " & 1919--29 & 1929--38 & 1913--38 \\\\")),
   t9_body,
-  paste0("\\textit{Sources:} Estonia: see online appendix. Latvia and Lithuania: \\cite{Klimantas2024}; ",
-         "\\cite{klimantas2023lithuania}. Other countries: \\cite{mpd2023}. \\textit{Notes:} countries ordered by 1938 level.")
+  paste0("\\textit{Sources:} Estonia: see online appendix. Latvia: 1913, \\cite[603]{norkusmark2021}; 1919--38, ",
+         "\\cite[316]{klimantas2025thesis}, table E.1, the series published for 1920--39 in \\cite{Klimantas2024}, whose ",
+         "values for 1929 and 1932 (2,349 and 2,288) differ from those used here by less than 0.1 per cent. ",
+         "Lithuania: \\cite{klimantas2023lithuania}. Other countries: \\cite{mpd2023}. \\textit{Notes:} countries ordered by 1938 level.")
 )
 write_tex(t9, "T9_interwar.tex")
 
@@ -527,8 +531,9 @@ t10 <- tex_table("tab:trade",
   "lrrr",
   paste0("Country & ", paste(tr_lab, collapse = " & "), " \\\\"),
   t10_body,
-  paste0("\\textit{Sources:} see the online appendix for the compilation of trade and GDP series ",
-         "(\\cite{mitchelstat}; \\cite{mpd2023}; national statistical yearbooks). ",
+  paste0("\\textit{Sources:} see the online appendix for the compilation of trade and GDP series. Baltic exports and imports: ",
+         "\\cite{lidaexportsee}; \\cite{lidaimportsee}; \\cite{lidaexportslv}; \\cite{lidaimportslv}; \\cite{lidaexp}; ",
+         "\\cite{lidaimp}; \\cite[123, 161]{balticstates1938}. Other countries: \\cite{worldtrade1949}. ",
          "\\textit{Notes:} unweighted averages of annual ratios; missing years omitted.")
 )
 write_tex(t10, "T10_trade.tex")
@@ -563,16 +568,16 @@ t11_body <- sprintf("%s & %s & %s & %s & %s \\\\",
                     ifelse(st$country %in% c("Estonia", "Finland"), paste0("\\textbf{", st$country, "}"), st$country),
                     fmtg(st$literacy), fmtg(st$agri_emp), fmtg(st$uni_1930), fmtg(st$agri_gdp37))
 t11 <- tex_table("tab:structure",
-  "Social capability and economic structure around 1930: Estonia, Finland and European comparators",
+  "Social capability and economic structure in the 1930s: Estonia, Finland and European comparators",
   "lrrrr",
   c("Country & Literacy & Agriculture & University & Agriculture \\\\",
     "& (\\% of adults) & (\\% of employment) & students (per 1,000) & (\\% of GDP) \\\\",
-    "& c.\\,1930 & c.\\,1930 & 1930 & c.\\,1937 \\\\"),
+    "& c.\\,1930 & c.\\,1935 & 1930 & c.\\,1937 \\\\"),
   t11_body,
   paste0("\\textit{Sources:} literacy: \\cite{cronin_literacy}; \\cite[246--77]{kirk_literacy}; ",
          "\\cite[528]{bostonencikl_rast}. Agricultural employment, data point closest to 1935: ",
          "\\cite[181]{morysinterwarinmorys2021} (Central, East and South-East Europe); \\cite{mitchelstat}; ",
-         "\\cite[2]{ostlandinzahlen}; \\cite[395, 409, 418]{sov_labour1939}. University students and agricultural ",
+         "\\cite[91]{biuletenis19393}; \\cite[2]{ostlandinzahlen}; \\cite[395, 409, 418]{sov_labour1939}. University students and agricultural ",
          "shares of GDP: see online appendix, section A.7. \\textit{Notes:} countries ordered by literacy; a literacy value of 97.5 ",
          "denotes near-universal literacy where the source gives no census figure. `---': not available."),
   size = "\\footnotesize", colsep = "4pt"
@@ -635,7 +640,7 @@ a1 <- c("% tab:series -- appendix table A1",
   paste0("\\multicolumn{8}{p{0.96\\linewidth}}{\\footnotesize\\textit{Sources:} see online appendix. \\textit{Notes:} GDP per capita in ",
          "international Geary--Khamis dollars of 1990 and of 2011 (\\intltwenty{} = \\intlnineteen{} $\\times$ ",
          INT11_PER_INT90, ", ",
-         "\\cite[12]{bolt_zanden_newgdp2021}); population in thousands, mid-year, within the borders of the republic to 1944 and present-day borders thereafter. ",
+         "\\cite{mpd2023}); population in thousands, mid-year, within the borders of the republic to 1944 and present-day borders thereafter. ",
          "No estimates for 1914--18.}\\\\"),
   "\\endlastfoot")
 for (i in seq_len(n_rows)) {
