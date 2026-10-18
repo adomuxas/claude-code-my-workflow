@@ -16,7 +16,6 @@
 # Outputs:
 #   Tables/latvia/T*.tex, A*.tex            main-text and appendix tables
 #   Tables/latvia/numbers.tex               LaTeX macros for numbers quoted in prose
-#   Figures/latvia/F*.pdf                   figures (base R graphics)
 #   Paper/latvia/supplementary/Latvia_online_data_appendix.xlsx
 #
 # Run from the repository root:  Rscript scripts/R/latvia_tables.R
@@ -31,9 +30,8 @@ if (!file.exists("Data/Klimantas_2025_data.xlsx"))
   stop("Run this script from the repository root (Data/Klimantas_2025_data.xlsx not found).")
 
 out_dir <- file.path("Tables", "latvia")
-fig_dir <- file.path("Figures", "latvia")
 sup_dir <- file.path("Paper", "latvia", "supplementary")
-for (d in c(out_dir, fig_dir, sup_dir)) dir.create(d, recursive = TRUE, showWarnings = FALSE)
+for (d in c(out_dir, sup_dir)) dir.create(d, recursive = TRUE, showWarnings = FALSE)
 
 # ---- helpers -----------------------------------------------------------------
 
@@ -761,72 +759,67 @@ write_tex(mk_a2(a2_cols_b, a2_hdr_b, "tab:appsec2",
   "A2_sectoral_b.tex")
 
 # =============================================================================
-# 14. FIGURES (base R, PDF)
+# 14. COMPARATIVE TABLES IN PLACE OF FIGURES: levels (T13), relative period
+#     averages (T14), convergence regressions (T15, A3), sectoral indices (T16)
 # =============================================================================
 
-yrs_plot <- 1913:last_cmp
-with_gap <- function(v) v[as.character(yrs_plot)]   # 1914-18 are absent from years_all and so plot as a gap
-pdf_open <- function(f, w = 6.5, h = 4.2) pdf(file.path(fig_dir, f), width = w, height = h, family = "Times")
+# T13: GDP per capita levels at the years of Table 8
+lev_cols <- c("Latvia", "Lithuania", "Estonia", "Finland", "Western", "USSRb")
+t13_body <- sprintf("%d & %s \\\\", rel_years,
+                    sapply(rel_years, function(y) paste(fmt(sapply(lev_cols, function(k) cmp[[k]][as.character(y)])), collapse = " & ")))
+t13_body <- append(t13_body, "\\midrule", after = 3)
+t13_body <- append(t13_body, "\\midrule", after = 8)
+t13 <- tex_table("tab:levels",
+  "GDP per capita in the Baltic states, Finland, the Western core and the USSR, selected years, 1913--2023 (\\intlnineteen{})",
+  "lrrrrrr",
+  c("Year & Latvia & Lithuania & Estonia & Finland & Western & USSR / former \\\\",
+    "& & & & & core & USSR \\\\"),
+  t13_body,
+  paste0("\\textit{Notes:} USSR within 1990 borders, former Soviet Union after 1991; from 1946 the Soviet level is Maddison's series ",
+         "rescaled to Bolotin's 1990 benchmark, to which the Baltic series are anchored. Western core as in Table~\\ref{tab:growth}; ",
+         "the annual Latvian series is in Table~\\ref{tab:series}. \\textit{Sources:} as Table~\\ref{tab:growth}."),
+  size = "\\footnotesize")
+write_tex(t13, "T13_levels.tex")
 
-# F1: levels, log scale
-pdf_open("F1_levels.pdf")
-par(mar = c(3.2, 4.2, 0.8, 0.8), mgp = c(2.4, 0.7, 0), cex = 0.85)
-series <- list(Latvia = cmp$Latvia, Lithuania = cmp$Lithuania, Estonia = cmp$Estonia, Finland = cmp$Finland,
-               `Western core` = cmp$Western, `USSR` = cmp$USSRb)
-ylim <- range(unlist(lapply(series, with_gap)), na.rm = TRUE)
-plot(NA, xlim = range(yrs_plot), ylim = ylim, log = "y", xlab = "", ylab = "GDP per capita, Int$1990 (log scale)",
-     yaxt = "n", xaxt = "n")
-axis(1, at = seq(1920, 2020, 20)); axis(2, at = c(1000, 2000, 5000, 10000, 20000), labels = c("1,000", "2,000", "5,000", "10,000", "20,000"), las = 1)
-abline(v = c(1940, 1991), col = "grey75", lty = 3)
-lines(yrs_plot, with_gap(series$`Western core`), col = "grey55", lwd = 1.6)
-lines(yrs_plot, with_gap(series$Finland), col = "grey55", lwd = 1.6, lty = 2)
-lines(yrs_plot, with_gap(series$USSR), col = "grey55", lwd = 1.6, lty = 4)
-lines(yrs_plot, with_gap(series$Lithuania), col = "black", lwd = 1.3, lty = 2)
-lines(yrs_plot, with_gap(series$Estonia), col = "black", lwd = 1.3, lty = 3)
-lines(yrs_plot, with_gap(series$Latvia), col = "black", lwd = 2.4)
-legend("topleft", legend = c("Latvia", "Lithuania", "Estonia", "Western core", "Finland", "USSR / former USSR"),
-       col = c("black", "black", "black", "grey55", "grey55", "grey55"), lwd = c(2.4, 1.3, 1.3, 1.6, 1.6, 1.6),
-       lty = c(1, 2, 3, 1, 2, 4), bty = "n", cex = 0.85)
-dev.off()
+# T14: percentage of the Western core, averages of the annual ratios over sub-periods
+avg_pds <- list(c(1919, 1928), c(1929, 1938), c(1946, 1955), c(1956, 1967), c(1968, 1979), c(1980, 1989),
+                c(1990, 1994), c(1995, 2007), c(2008, last_cmp))
+#' Mean of the annual ratio v / Western core (per cent) over y0-y1; NA unless at least half the years are present
+avg_pct_wc <- function(v, y0, y1) {
+  yy <- as.character(y0:y1); r <- v[yy] / cmp$Western[yy] * 100
+  if (sum(!is.na(r)) < length(yy) / 2) NA else mean(r, na.rm = TRUE)
+}
+avg_cols <- c("Latvia", "Lithuania", "Estonia", "Baltics", "Periphery", "ECE")
+avg_tab <- t(sapply(avg_pds, function(p) sapply(avg_cols, function(k) avg_pct_wc(cmp[[k]], p[1], p[2]))))
+avg_lab <- sapply(avg_pds, function(p)
+  paste0(p[1], "--", if (p[1] %/% 100 == p[2] %/% 100) substr(p[2], 3, 4) else p[2]))
+t14_body <- sprintf("%s & %s \\\\", avg_lab, apply(avg_tab, 1, function(r) paste(fmtp(r), collapse = " & ")))
+t14_body <- append(t14_body, "\\midrule", after = 2)
+t14_body <- append(t14_body, "\\midrule", after = 7)
+t14 <- tex_table("tab:relativeavg",
+  "GDP per capita as a percentage of the Western core, averages by sub-period, 1919--2023",
+  "lrrrrrr",
+  c("Period & Latvia & Lithuania & Estonia & Baltics & Western & ECE \\\\",
+    "& & & & & periphery & \\\\"),
+  t14_body,
+  paste0("\\textit{Notes:} averages of the annual ratios of GDP per capita, \\intlnineteen{}, to that of the Western core; ",
+         "regional aggregates are population-weighted; 1939--45 are omitted. Country groups as in Table~\\ref{tab:growth}. ",
+         "\\textit{Sources:} as Table~\\ref{tab:growth}."),
+  size = "\\footnotesize")
+write_tex(t14, "T14_relative_avg.tex")
 
-# F2: percentage of Western core, 5-year centred moving average
-ma5 <- function(v) { out <- v; n <- length(v)
-  for (i in seq_len(n)) { lo <- max(1, i - 2); hi <- min(n, i + 2); w <- v[lo:hi]; out[i] <- if (sum(!is.na(w)) >= 3) mean(w, na.rm = TRUE) else NA }
-  out }
-pct_wc <- function(v) ma5(with_gap(v) / with_gap(cmp$Western) * 100)
-pdf_open("F2_relative.pdf")
-par(mar = c(3.2, 4.2, 0.8, 0.8), mgp = c(2.4, 0.7, 0), cex = 0.85)
-plot(NA, xlim = range(yrs_plot), ylim = c(25, 90), xlab = "", ylab = "Per cent of Western core GDP per capita", xaxt = "n", las = 1)
-axis(1, at = seq(1920, 2020, 20)); abline(v = c(1940, 1991), col = "grey75", lty = 3)
-lines(yrs_plot, pct_wc(cmp$Periphery), col = "grey55", lwd = 1.6)
-lines(yrs_plot, pct_wc(cmp$ECE), col = "grey55", lwd = 1.6, lty = 2)
-lines(yrs_plot, pct_wc(cmp$Lithuania), col = "black", lwd = 1.3, lty = 2)
-lines(yrs_plot, pct_wc(cmp$Estonia), col = "black", lwd = 1.3, lty = 3)
-lines(yrs_plot, pct_wc(cmp$Latvia), col = "black", lwd = 2.4)
-legend("topleft", legend = c("Latvia", "Lithuania", "Estonia", "Western periphery", "East-Central Europe"),
-       col = c("black", "black", "black", "grey55", "grey55"), lwd = c(2.4, 1.3, 1.3, 1.6, 1.6), lty = c(1, 2, 3, 1, 2), bty = "n", cex = 0.85)
-dev.off()
-
-# F3: beta-convergence, three regimes
+# T15 and A3: unconditional beta-convergence across European economies, three regimes
 eu_countries <- c("Albania", "Austria", "Belgium", "Bulgaria", "Switzerland", "Czechoslovakia", "Cyprus", "Germany",
                   "Denmark", "Spain", "Estonia", "Finland", "France", "United Kingdom", "Greece", "Hungary", "Ireland",
                   "Iceland", "Italy", "Lithuania", "Luxembourg", "Latvia", "Malta", "Netherlands", "Norway", "Poland",
                   "Portugal", "Romania", "USSR", "Sweden", "Yugoslavia", "Czech Republic", "Slovakia", "Slovenia",
                   "Croatia", "Serbia", "Bosnia and Herzegovina", "Macedonia", "Montenegro", "Belarus", "Ukraine",
                   "Moldova", "Russia", "Georgia", "Armenia", "Azerbaijan")
-abbr <- c(Albania = "ALB", Austria = "AUT", Belgium = "BEL", Bulgaria = "BGR", Switzerland = "CHE", Czechoslovakia = "CSK",
-          Cyprus = "CYP", Germany = "DEU", Denmark = "DNK", Spain = "ESP", Estonia = "EST", Finland = "FIN", France = "FRA",
-          `United Kingdom` = "GBR", Greece = "GRC", Hungary = "HUN", Ireland = "IRL", Iceland = "ISL", Italy = "ITA",
-          Lithuania = "LTU", Luxembourg = "LUX", Latvia = "LVA", Malta = "MLT", Netherlands = "NLD", Norway = "NOR",
-          Poland = "POL", Portugal = "PRT", Romania = "ROU", USSR = "USSR", Sweden = "SWE", Yugoslavia = "YUG",
-          `Czech Republic` = "CZE", Slovakia = "SVK", Slovenia = "SVN", Croatia = "HRV", Serbia = "SRB",
-          `Bosnia and Herzegovina` = "BIH", Macedonia = "MKD", Montenegro = "MNE", Belarus = "BLR", Ukraine = "UKR",
-          Moldova = "MDA", Russia = "RUS", Georgia = "GEO", Armenia = "ARM", Azerbaijan = "AZE")
 socialist <- c("Albania", "Bulgaria", "Czechoslovakia", "Germany", "Hungary", "Poland", "Romania", "USSR", "Yugoslavia",
                "Lithuania", "Latvia", "Estonia")   # Germany excluded from the 1938-89 regression (divided country)
 # One point per economy: before 1989 the historical units (USSR, Yugoslavia, Czechoslovakia) enter and their
 # member or successor states do not, except the three Baltic states, which are the subject of the paper and
-# are shown separately in every panel; after 1989 the successor states enter and the aggregates do not.
+# are shown separately in every period; after 1989 the successor states enter and the aggregates do not.
 successors <- c("Russia", "Belarus", "Ukraine", "Moldova", "Georgia", "Armenia", "Azerbaijan",
                 "Croatia", "Slovenia", "Serbia", "Bosnia and Herzegovina", "Macedonia", "Montenegro",
                 "Czech Republic", "Slovakia")
@@ -839,52 +832,110 @@ beta_data <- function(y0, y1, spain_sub = FALSE) {
     ye <- y1; if (spain_sub && cn == "Spain" && y0 == 1913) ye <- 1935
     a <- v[as.character(ys)]; b <- v[as.character(ye)]
     if (is.na(a) || is.na(b) || (cn == "Germany" && y0 == 1938)) return(NULL)
-    data.frame(country = cn, x = log(a), g = cagr(a, b, ye - ys), stringsAsFactors = FALSE)
+    data.frame(country = cn, y0 = unname(a), x = log(unname(a)), g = unname(cagr(a, b, ye - ys)), stringsAsFactors = FALSE)
   }))
 }
-beta_panel <- function(y0, y1, title, spain_sub) {
+#' Fit growth on log initial income for the economies in d; return coefficients and Baltic residuals
+beta_fit <- function(d) {
+  fit <- lm(g ~ x, data = d); s <- summary(fit)
+  res <- d[d$country %in% c("Latvia", "Lithuania", "Estonia"), ]
+  list(coef = coef(fit), se = s$coefficients[2, 2], sigma = s$sigma, r2 = s$r.squared, n = nrow(d),
+       growth = setNames(res$g, res$country), resid = setNames(res$g - predict(fit, newdata = res), res$country))
+}
+beta_period <- function(y0, y1, spain_sub) {
   d <- beta_data(y0, y1, spain_sub)
   stopifnot(!any(duplicated(d$country)), nrow(d) >= 15)
-  plot(d$x, d$g, pch = ifelse(d$country %in% socialist & y0 >= 1938 & y0 < 1989, 17, 1), cex = 0.9,
-       xlab = paste0("Log GDP per capita, ", y0), ylab = "Growth of GDP per capita, % p.a.", main = title, las = 1, font.main = 1, cex.main = 0.95)
-  fit <- lm(g ~ x, data = d); abline(fit, lty = 2)
-  if (y0 == 1938) { ds <- d[d$country %in% socialist, ]; dc <- d[!d$country %in% socialist, ]
-    if (nrow(ds) > 3) abline(lm(g ~ x, data = ds), lty = 3); if (nrow(dc) > 3) abline(lm(g ~ x, data = dc), lty = 4) }
-  wc <- cagr(cmp$Western[as.character(y0)], cmp$Western[as.character(y1)], y1 - y0); abline(h = wc, col = "grey60")
-  lab <- d[d$country %in% c("Latvia", "Lithuania", "Estonia", "Finland", "Greece", "Ireland", "Portugal", "Spain", "Poland", "USSR", "Czechoslovakia", "Hungary", "Bulgaria", "Yugoslavia", "Romania", "Italy", "Albania", "Russia", "Slovenia"), ]
-  text(lab$x, lab$g, labels = abbr[lab$country], pos = 4, cex = 0.62, offset = 0.3)
-  points(d$x[d$country == "Latvia"], d$g[d$country == "Latvia"], pch = 16, cex = 1.3)
-  res <- d[d$country %in% c("Latvia", "Lithuania", "Estonia"), ]
-  res$resid <- res$g - predict(fit, newdata = res)
-  cat("Beta residuals", y0, "-", y1, ": "); print(data.frame(country = res$country, growth = round(res$g, 2), resid = round(res$resid, 2)))
-  invisible(list(coef = coef(fit), se = summary(fit)$coefficients[2, 2], sigma = summary(fit)$sigma, n = nrow(d),
-                 resid = setNames(res$resid, res$country)))
+  out <- beta_fit(d)
+  out$data <- d
+  out$wc <- unname(cagr(cmp$Western[as.character(y0)], cmp$Western[as.character(y1)], y1 - y0))
+  cat("Beta residuals", y0, "-", y1, ": "); print(round(out$resid, 2))
+  out
 }
-pdf_open("F3_beta.pdf", w = 9.5, h = 3.6)
-par(mfrow = c(1, 3), mar = c(3.6, 3.8, 2, 0.6), mgp = c(2.3, 0.7, 0), cex = 0.75)
-b1 <- beta_panel(1913, 1938, "(a) Interwar capitalism, 1913-38", TRUE)
-b2 <- beta_panel(1938, 1989, "(b) Cold War, 1938-89", TRUE)
-b3 <- beta_panel(1989, 2019, "(c) Post-communist era, 1989-2019", FALSE)
-dev.off()
+b1 <- beta_period(1913, 1938, TRUE)
+b2 <- beta_period(1938, 1989, TRUE)
+b3 <- beta_period(1989, 2019, FALSE)
+b2s <- beta_fit(b2$data[b2$data$country %in% socialist, ])
+b2c <- beta_fit(b2$data[!b2$data$country %in% socialist, ])
 
-# F4: Latvian sectoral indices, log scale
-pdf_open("F4_sectoral.pdf")
-par(mar = c(3.2, 4.2, 0.8, 0.8), mgp = c(2.4, 0.7, 0), cex = 0.85)
-yy <- 1919:1995
-sv_plot <- list(`GDP` = sv$`Total GVA/GDP`, `Primary sector` = sv$`Primary sector total`, `Industry` = sv$`Industry total`,
-                `Construction` = sv$Construction, `Market services` = sv$`Market services total`, `Public services` = sv$`Public services total`)
-plot(NA, xlim = range(yy), ylim = c(8, 1000), log = "y", xlab = "", ylab = "Index, 1938 = 100 (log scale)", yaxt = "n", xaxt = "n")
-axis(1, at = seq(1920, 1990, 10)); axis(2, at = c(10, 20, 50, 100, 200, 500, 1000), las = 1)
-abline(v = c(1940, 1991), col = "grey75", lty = 3); abline(h = 100, col = "grey85")
-lines(yy, sv_plot$`Primary sector`[match(yy, as.numeric(rownames(sv)))], col = "grey45", lwd = 1.4, lty = 1)
-lines(yy, sv_plot$Industry[match(yy, as.numeric(rownames(sv)))], col = "grey45", lwd = 1.4, lty = 2)
-lines(yy, sv_plot$Construction[match(yy, as.numeric(rownames(sv)))], col = "grey45", lwd = 1.4, lty = 3)
-lines(yy, sv_plot$`Market services`[match(yy, as.numeric(rownames(sv)))], col = "black", lwd = 1.2, lty = 2)
-lines(yy, sv_plot$`Public services`[match(yy, as.numeric(rownames(sv)))], col = "black", lwd = 1.2, lty = 3)
-lines(yy, sv_plot$GDP[match(yy, as.numeric(rownames(sv)))], col = "black", lwd = 2.4)
-legend("topleft", legend = c("GDP", "Market services", "Public services", "Primary sector", "Industry", "Construction"),
-       col = c("black", "black", "black", "grey45", "grey45", "grey45"), lwd = c(2.4, 1.2, 1.2, 1.4, 1.4, 1.4), lty = c(1, 2, 3, 1, 2, 3), bty = "n", cex = 0.85)
-dev.off()
+fmtc <- function(x, d = 2) ifelse(is.na(x), "---", ifelse(round(x, d) < 0, paste0("$-$", sprintf(paste0("%.", d, "f"), abs(x))), sprintf(paste0("%.", d, "f"), x)))
+bcols <- list(b1, b2, b2s, b2c, b3)
+brow <- function(lab, f) paste0(lab, " & ", paste(sapply(bcols, f), collapse = " & "), " \\\\")
+bal_cell <- function(b, cc) if (cc %in% names(b$growth)) paste0(fmtc(b$growth[[cc]]), " (", sub("^([0-9])", "+\\1", fmtc(b$resid[[cc]])), ")") else "---"
+t15_body <- c(
+  brow("Slope", function(b) fmtc(b$coef[2])),
+  brow("", function(b) paste0("(", sprintf("%.2f", b$se), ")")),
+  brow("Intercept", function(b) fmtc(b$coef[1])),
+  brow("$R^2$", function(b) sprintf("%.2f", b$r2)),
+  brow("Residual standard deviation", function(b) sprintf("%.1f", b$sigma)),
+  brow("Number of economies", function(b) as.character(b$n)),
+  "\\midrule",
+  paste0("Western-core growth & ", fmtc(b1$wc), " & \\multicolumn{3}{c}{", fmtc(b2$wc), "} & ", fmtc(b3$wc), " \\\\"),
+  "\\midrule",
+  "\\multicolumn{6}{l}{\\textit{Growth (residual from the column's regression line)}} \\\\",
+  sapply(c("Latvia", "Lithuania", "Estonia"), function(cc) brow(cc, function(b) bal_cell(b, cc))))
+t15 <- tex_table("tab:beta",
+  "Growth and initial income in Europe under three regimes: unconditional convergence regressions",
+  "lccccc",
+  c("& (a) & \\multicolumn{3}{c}{(b) Cold War, 1938--89} & (c) \\\\",
+    "\\cmidrule(lr){3-5}",
+    "& 1913--38 & All & Socialist & Capitalist & 1989--2019 \\\\"),
+  t15_body,
+  paste0("\\textit{Notes:} ordinary least squares regressions of the compound annual growth of GDP per capita (per cent) on the natural ",
+         "logarithm of initial GDP per capita, \\intlnineteen{}, across European economies; standard errors in parentheses. ",
+         "Socialist economies in column (b): Albania, Bulgaria, Czechoslovakia, Hungary, Poland, Romania, the USSR, Yugoslavia and ",
+         "the three Baltic states; Germany is omitted from (b). Spain enters (a) and (b) with 1935 in place of 1938 because of the civil war. ",
+         "One observation per economy: before 1989 the Soviet Union, Yugoslavia and Czechoslovakia enter and their member or successor states ",
+         "do not, except the three Baltic states; from 1989 the successor states enter and the aggregates do not. Residuals are in percentage ",
+         "points a year. The data for each economy are in Table~\\ref{tab:betadata}. ",
+         "\\textit{Sources:} this paper, the companion series and \\textcite{mpd2023}."),
+  size = "\\footnotesize", colsep = "4pt")
+write_tex(t15, "T15_beta.tex")
+
+# A3: the observations behind Table 15
+a3_countries <- sort(unique(c(b1$data$country, b2$data$country, b3$data$country)), method = "radix")   # C-locale order
+a3_cell <- function(b, cn) { r <- b$data[b$data$country == cn, ]
+  if (nrow(r) == 0) "--- & ---" else paste0(fmt(r$y0), " & ", fmtc(r$g)) }
+a3_lines <- sapply(a3_countries, function(cn)
+  paste0(cn, if (cn %in% socialist && cn %in% b2$data$country) "$^{\\mathrm{s}}$" else "", " & ",
+         a3_cell(b1, cn), " & ", a3_cell(b2, cn), " & ", a3_cell(b3, cn), " \\\\"))
+a3_hdr <- c("& \\multicolumn{2}{c}{(a) 1913--38} & \\multicolumn{2}{c}{(b) 1938--89} & \\multicolumn{2}{c}{(c) 1989--2019} \\\\",
+            "\\cmidrule(lr){2-3}\\cmidrule(lr){4-5}\\cmidrule(lr){6-7}",
+            "Economy & Initial & Growth & Initial & Growth & Initial & Growth \\\\")
+a3 <- c("% tab:betadata",
+  "\\setlength{\\tabcolsep}{4pt}",
+  "\\begin{longtable}{lrrrrrr}",
+  "\\caption{Initial GDP per capita and growth of the European economies in the convergence regressions}\\label{tab:betadata}\\\\",
+  "\\toprule", a3_hdr, "\\midrule", "\\endfirsthead",
+  "\\multicolumn{7}{l}{\\textit{Table~\\ref{tab:betadata} (continued)}} \\\\ \\toprule", a3_hdr, "\\midrule", "\\endhead",
+  "\\midrule \\multicolumn{7}{r}{\\textit{continued on next page}} \\\\", "\\endfoot",
+  "\\bottomrule", "\\endlastfoot",
+  unname(a3_lines),
+  "\\end{longtable}",
+  paste0("\\vspace{-1.2em}\\noindent\\begin{minipage}{\\textwidth}\\footnotesize \\textit{Notes:} initial: GDP per capita in the first year ",
+         "of the period, \\intlnineteen{} (the regressions use its natural logarithm); growth: compound annual growth of GDP per capita, per cent. ",
+         "$^{\\mathrm{s}}$ socialist economy in column (b) of Table~\\ref{tab:beta}. Spain: 1913--35 and 1935--89. `---': not in the sample for the period. ",
+         "\\textit{Sources:} as Table~\\ref{tab:beta}.\\end{minipage}\\vspace{1em}"))
+write_tex(a3, "A3_beta_data.tex")
+
+# T16: Latvian sectoral indices at selected years
+idx_years <- c(1919, 1929, 1938, 1945, 1950, 1955, 1960, 1968, 1975, 1980, 1985, 1989, 1991, 1995)
+idx_cols <- c("Total GVA/GDP", "Primary sector total", "Industry total", "Construction", "Market services total", "Public services total")
+stopifnot(all(idx_cols %in% names(sv)))
+t16_body <- sprintf("%d & %s \\\\", idx_years,
+                    sapply(idx_years, function(y) paste(fmt(unlist(sv[as.character(y), idx_cols])), collapse = " & ")))
+t16_body <- append(t16_body, "\\midrule", after = 3)
+t16_body <- append(t16_body, "\\midrule", after = 13)
+t16 <- tex_table("tab:sectoralidx",
+  "Volume indices of sectoral value-added in Latvia, selected years, 1919--95 (1938 = 100)",
+  "lrrrrrr",
+  c("Year & GDP & Primary & Industry & Construction & Market & Public \\\\",
+    "& & sector & & & services & services \\\\"),
+  t16_body,
+  paste0("\\textit{Notes:} market services: transport and communications, trade, finance and insurance and housing; public services: ",
+         "administration, defence, health and education. ",
+         "The annual indices are in Tables~\\ref{tab:appsec1} and~\\ref{tab:appsec2}. \\textit{Sources:} see online appendix."),
+  size = "\\footnotesize")
+write_tex(t16, "T16_sectoral_idx.tex")
 
 # =============================================================================
 # 15. NUMBER MACROS FOR THE PROSE -> numbers.tex
