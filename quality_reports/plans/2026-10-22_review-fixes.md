@@ -1,6 +1,6 @@
 # Plan: apply the final-review fixes (wording, consistency, citations)
 
-**Status:** COMPLETED (2026-10-22). Reports: `quality_reports/2026-10-22_{latvia,estonia}_review_fixes.md`. Left for author: Latvia item 1 (the `uthorcheck` boxes) and the out-of-scope list.
+**Status:** COMPLETED (2026-10-22). Reports: `quality_reports/2026-10-22_{latvia,estonia}_review_fixes.md`. Left for author: Latvia item 1 (the "Author check" boxes) and the out-of-scope list.
 
 **Rule:** follow the dissertation in all calculations; never compute new figures. Every number comes from the existing tables or macros, the workbook (`Data/`) or the dissertation (`Dissertation latex files/klimantas2024dphil.tex`). Diagnostic arithmetic is allowed only to check a claim. Where the dissertation and the sources don't settle an item, leave it and report it.
 
