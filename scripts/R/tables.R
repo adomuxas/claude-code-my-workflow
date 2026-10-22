@@ -146,11 +146,23 @@ check_same <- function(ds_name, wb_series) {
   stopifnot(sum(!is.na(d)) > 100, max(d, na.rm = TRUE) < 0.01)
 }
 check_same("Estonia", ee_gdp90); check_same("Lithuania", lt_gdp90); check_same("Latvia", lv_gdp90)
+#' Nordic aggregate as in the dissertation (Klimantas 2025, ch. 4): Denmark, Finland, Iceland and Sweden,
+#' population-weighted; Norway omitted for its oil-driven post-1990 growth. Workbook series 'NoNoNordics'.
+nordics_dissertation <- function() {
+  rp <- as.data.frame(read_excel("Data/Analysis 20251111.xlsx", sheet = "Regional peers",
+                                 col_names = FALSE, .name_repair = "minimal"))
+  j <- which(apply(rp[1:3, ], 2, function(z) any(z == "NoNoNordics (Denmark, Finland, Iceland, Sweden)",
+                                                 na.rm = TRUE)))[1]   # first copy: annual, not 5-year averages
+  v <- setNames(suppressWarnings(as.numeric(rp[[j]])), suppressWarnings(as.numeric(rp[[1]])))
+  v <- setNames(v[as.character(years_all)], years_all)
+  stopifnot(abs(v["1913"] - 2934.8) < 0.1, abs(v["2019"] - 28069.6) < 0.1)
+  v
+}
 cmp <- list(
   Finland  = g_col("Finland"),
   Sweden   = g_col("Sweden"),
   Denmark  = g_col("Denmark"),
-  Nordics  = g_col("Nordics (Denmark, Finland, Iceland, Norway, Sweden)"),
+  Nordics  = nordics_dissertation(),
   Western  = g_col("Western core"),
   Periphery = g_col("Western periphery"),   # Finland, Iceland, Ireland, Greece, Italy, Portugal, Spain
   USSR     = g_col("USSR"),
@@ -314,7 +326,8 @@ t5 <- tex_table("tab:growth",
   paste0("\\textit{Sources:} Estonia: see online appendix. Lithuania: \\cite{klimantas2026soviet}. ",
          "Other series: \\cite{mpd2023}, supplemented as documented in the online appendix. ",
          "\\textit{Notes:} compound annual rates between end-point years, \\intlnineteen{}. ",
-         "Nordics: Denmark, Finland, Iceland, Norway and Sweden; Western periphery: Finland, Greece, Iceland, ",
+         "Nordics: Denmark, Finland, Iceland and Sweden (Norway, whose growth after 1990 was driven by oil rents, ",
+         "is omitted, as in \\cite{klimantas2025thesis}); Western periphery: Finland, Greece, Iceland, ",
          "Ireland, Italy, Portugal and Spain; Western core: Austria, Belgium, Denmark, France, Germany (West Germany ",
          "1950--97), the Netherlands, Norway, Sweden, Switzerland and the UK; ECE (East-Central Europe): Bulgaria, ",
          "Czechoslovakia, Hungary, Poland, Romania and Yugoslavia; USSR: Soviet Union within 1990 borders ",
