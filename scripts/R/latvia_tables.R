@@ -157,11 +157,24 @@ check_same("Lithuania", lt_gdp90); check_same("Latvia", lv_gdp90); check_same("E
 # The Datasheets 2024 row is an older vintage than the workbook (not compared: comparators end in 2023);
 # the paper, the appendix workbook and every macro use the workbook series.
 
+#' Nordic aggregate as in the dissertation (Klimantas 2025, ch. 4): Denmark, Finland, Iceland and Sweden,
+#' population-weighted; Norway omitted for its oil-driven post-1990 growth. Workbook series 'NoNoNordics'.
+nordics_dissertation <- function() {
+  rp <- as.data.frame(read_excel("Data/Analysis 20251111.xlsx", sheet = "Regional peers",
+                                 col_names = FALSE, .name_repair = "minimal"))
+  j <- which(apply(rp[1:3, ], 2, function(z) any(z == "NoNoNordics (Denmark, Finland, Iceland, Sweden)",
+                                                 na.rm = TRUE)))[1]   # first copy: annual, not 5-year averages
+  v <- setNames(suppressWarnings(as.numeric(rp[[j]])), suppressWarnings(as.numeric(rp[[1]])))
+  v <- setNames(v[as.character(years_all)], years_all)
+  stopifnot(abs(v["1913"] - 2934.8) < 0.1, abs(v["2019"] - 28069.6) < 0.1)
+  v
+}
+
 cmp <- list(
   Finland   = g_col("Finland"),
   Sweden    = g_col("Sweden"),
   Denmark   = g_col("Denmark"),
-  Nordics   = g_col("Nordics (Denmark, Finland, Iceland, Norway, Sweden)"),
+  Nordics   = nordics_dissertation(),
   Western   = g_col("Western core"),
   Periphery = g_col("Western periphery"),
   ECE       = g_col("ECE"),
@@ -455,8 +468,8 @@ t7 <- tex_table("tab:growth",
     "& & & & & & & core & periphery & & \\\\"),
   t7_body,
   paste0("\\textit{Notes:} compound annual rates between end-point years, \\intlnineteen{}. Regional rates are growth rates of ",
-         "population-weighted average GDP per capita. Baltics: Latvia, Lithuania and Estonia; Nordics: Denmark, Finland, Iceland, Norway ",
-         "and Sweden; Western core: Austria, Belgium, Denmark, France, Germany (West Germany 1950--97), the Netherlands, Norway, Sweden, ",
+         "population-weighted average GDP per capita. Baltics: Latvia, Lithuania and Estonia; Nordics: Denmark, Finland, Iceland ",
+         "and Sweden (Norway, whose growth after 1990 was driven by oil rents, is omitted, as in \\cite{klimantas2025thesis}); Western core: Austria, Belgium, Denmark, France, Germany (West Germany 1950--97), the Netherlands, Norway, Sweden, ",
          "Switzerland and the UK; Western periphery: Finland, Greece, Iceland, Ireland, Italy, Portugal and Spain; ECE (East-Central Europe): ",
          "Bulgaria, Czechoslovakia, Hungary, Poland, Romania and Yugoslavia; USSR: Soviet Union within 1990 borders, former Soviet Union after 1991. ",
          "\\textit{Sources:} Baltic states: this paper, \\textcite{klimantas2026soviet} and \\textcite{klimantas2025estonia}; ",
