@@ -5,7 +5,7 @@
 // master source list holding every entry of the paper's .bib files.
 const fs = require('fs');
 const path = require('path');
-const { paper, loadEntries, delatex, parseNames, citeAuthors } = require('./bib_lib');
+const { root, paper, loadEntries, delatex, parseNames } = require('./bib_lib');
 
 const [paperName, citedFile, outDir] = process.argv.slice(2);
 const p = paper(paperName);
@@ -53,6 +53,10 @@ function source(e) {
       type = 'Report';
       extra = el('ThesisType', [d('type'), d('number')].filter(Boolean).join(' '));
       break;
+    case 'unpublished':
+      type = 'Report';
+      extra = el('ThesisType', d('type') || 'Unpublished manuscript');
+      break;
     default:
       type = f.url && !f.publisher ? 'DocumentFromInternetSite' : 'Misc';
       extra = el('PublicationTitle', d('howpublished') || d('journal') || d('journaltitle'));
@@ -65,6 +69,9 @@ function source(e) {
   const publisher = type === 'JournalArticle' ? '' : d('publisher') || d('institution') || d('school') || d('organization');
   return `<b:Source xmlns:b="${NS}">${el('Tag', e.key.replace(/[^A-Za-z0-9_]/g, '_'))}<b:SourceType>${type}</b:SourceType>`
     + `<b:Guid>${guid(e.key)}</b:Guid>${authorBlock}${el('Title', d('title'))}${el('Year', year)}`
+    // short notes cite the short title; a shorthand ("MPD 2023") replaces author and title, and
+    // StandardNumber = 'shorthand' tells the Chicago Footnotes style to print it alone
+    + el('ShortTitle', d('shorthand') || d('shorttitle')) + (f.shorthand ? el('StandardNumber', 'shorthand') : '')
     + extra + el('City', d('address') || d('location')) + el('Publisher', publisher)
     + el('URL', f.url) + el('Comments', d('note')) + '</b:Source>';
 }
@@ -74,22 +81,21 @@ const cited = fs.readFileSync(citedFile, 'utf8').split(/\r?\n/).filter(Boolean);
 const missing = cited.filter(k => !entries.has(k));
 if (missing.length) { console.error('missing bib entries: ' + missing.join(', ')); process.exit(1); }
 
-// Chicago author-date: works with the same authors and year become 2024a, 2024b
-const groups = {};
-for (const k of cited) {
+// Same authors and year become 2024a, 2024b: the letters are biblatex's own (extradate in the
+// paper's main.bbl), so they match the PDF. Note styles assign none.
+const bbl = path.join(root, p.dir, 'main.bbl');
+if (!fs.existsSync(bbl)) { console.error(`${bbl} not found: compile the LaTeX paper first`); process.exit(1); }
+const extradate = {};
+for (const m of fs.readFileSync(bbl, 'utf8').matchAll(/\\entry\{([^}]+)\}[\s\S]*?\\endentry/g)) {
+  const x = m[0].match(/\\field\{extradate\}\{(\d+)\}/);
+  if (x) extradate[m[1]] = +x[1];
+}
+const lettered = cited.filter(k => extradate[k]);
+for (const k of lettered) {
   const f = entries.get(k).fields;
-  // as biblatex: the names shown in the citation ("Klimantas et al."), not the full list
-  const who = citeAuthors(entries.get(k)).toLowerCase();
-  const year = (f.year || f.date || '').match(/\d{4}/)?.[0];
-  if (!year) continue;
-  (groups[who + '#' + year] ||= []).push(k);
+  f.year = (f.year || f.date).match(/\d{4}/)[0] + 'abcdefghij'[extradate[k] - 1];
 }
-for (const keys of Object.values(groups)) {
-  if (keys.length < 2) continue;
-  keys.sort((a, b) => delatex(entries.get(a).fields.title || '').localeCompare(delatex(entries.get(b).fields.title || '')));
-  keys.forEach((k, i) => { const f = entries.get(k).fields; f.year = (f.year || f.date).match(/\d{4}/)[0] + 'abcdefghij'[i]; });
-  console.log('year suffixes: ' + keys.join(', '));
-}
+if (lettered.length) console.log('year suffixes: ' + lettered.map(k => k + '=' + entries.get(k).fields.year).join(', '));
 
 const citedDir = path.join(outDir, 'sources_cited');
 fs.rmSync(citedDir, { recursive: true, force: true });

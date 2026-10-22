@@ -9,13 +9,16 @@
 //    (same-author, same-year works are told apart by 2024a/2024b instead)
 //  - a citation whose author is suppressed (\n, used after a name in the text)
 //    prints "(2021, 163)" rather than the title
-// "Chicago Footnotes" also prints citations without parentheses.
+// "Chicago Footnotes" also prints citations without parentheses, in the Chicago short-note form
+// (author, short title, pages).
 const fs = require('fs');
 const path = require('path');
 
 const src = process.argv[2] || 'C:/Program Files/Microsoft Office/root/Office16/Bibliography/Style/CHICAGO.XSL';
 const outDir = process.argv[3] || path.join(process.env.APPDATA, 'Microsoft', 'Bibliography', 'Style');
 const original = fs.readFileSync(src, 'utf8');
+// the cited source, as the citation block of CHICAGO.XSL addresses it
+const SRC = 'msxsl:node-set($ListPopulatedWithMain)/b:Citation/b:Source';
 
 function build(styleName, brackets) {
   let x = original;
@@ -48,7 +51,24 @@ function build(styleName, brackets) {
   ];
   if (!brackets) steps.push(
     [/<xsl:call-template name="templ_prop_OpenBracket"\/>/, ''],
-    [/<xsl:call-template name="templ_prop_CloseBracket"\/>/, '']);
+    [/<xsl:call-template name="templ_prop_CloseBracket"\/>/, ''],
+    // Chicago short notes: "Kahk and Tarvel, An economic, 107" -- author, short title (ShortTitle, else
+    // Title), pages; no year. Live fields cannot tell a first citation from a later one, so every note
+    // takes the short form (CMOS 14.29, with the full reference in the bibliography).
+    [/(<xsl:variable name="displayTitle">\s*<xsl:choose>\s*<xsl:when test=")string-length\(\$author0\) = 0/, '$1true()'],
+    [/(<xsl:if test="string-length\(\$year\) > 0 and not\(string-length\(\$author0\) = 0 and string-length\(\$title0\) = 0 and string-length\(\$yearSimple\) = 0\))">/,
+      '$1 and string-length($displayTitle) = 0">'],
+    // a biblatex shorthand ("MPD 2023") stands alone: bib_to_sources.js marks it with StandardNumber
+    [/(<xsl:variable name="displayAuthor">\s*)<xsl:value-of select="\$author" \/>/,
+      `$1<xsl:if test="not(${SRC}/b:StandardNumber = 'shorthand')"><xsl:value-of select="$author" /></xsl:if>`],
+    // titles as biblatex-chicago sets them: quoted for articles, chapters, theses and unpublished
+    // work (British single quotes), plain for a shorthand, italic otherwise
+    [/<xsl:if test="string-length\(\$displayTitle\)>0">\s*<xsl:value-of select="\$displayTitle"\/>\s*<\/xsl:if>/,
+      `<xsl:choose>
+								<xsl:when test="${SRC}/b:StandardNumber = 'shorthand'"><xsl:value-of select="$displayTitle"/></xsl:when>
+								<xsl:when test="$type = 'JournalArticle' or $type = 'BookSection' or $type = 'ArticleInAPeriodical' or $type = 'ConferenceProceedings' or ($type = 'Report' and (contains(${SRC}/b:ThesisType, 'diss') or contains(${SRC}/b:ThesisType, 'thesis') or contains(${SRC}/b:ThesisType, 'manuscript')))"><xsl:text>‘</xsl:text><xsl:value-of select="$displayTitle"/><xsl:text>’</xsl:text></xsl:when>
+								<xsl:otherwise><i xmlns="http://www.w3.org/TR/REC-html40"><xsl:value-of select="$displayTitle"/></i></xsl:otherwise>
+							</xsl:choose>`]);
   for (const [re, repl] of steps) {
     if (!re.test(cit)) throw new Error(`citation block: no match for ${re}`);
     cit = cit.replace(re, repl);
