@@ -662,7 +662,7 @@ t2_rows <- list(
   c("Crops", "Physical output of 9--10 crop categories, 1937--95; 1990 value-added weights from the World Bank's 1993 study, grains split with the 1995 Eurostat agricultural accounts; sown areas for 1945--55 from unpublished returns", "A.1"),
   c("Livestock", "Physical output of 7--16 animal products; 1941--9 yields obtained from animal numbers and the yields per animal of 1940, 1945 and 1950", "A.1"),
   c("Forestry and fishing", "Timber cut (cubic metres) and fish catch (tonnes); 1941, 1971 and 1974--6 catches interpolated", "A.1"),
-  c("Industry", "129 physical product series in 11 branches (Table~\\ref{tab:products}); product weights from the 1987 input--output study and the 1993 World Bank study, products consolidated into 22 minor branches by index averages because no archival late-1980s output valuation survives for Latvia; branch weights from the 1990 benchmark", "A.2"),
+  c("Industry", "129 physical product series in 10 of the 11 branches (petroleum refining did not exist in Latvia; Table~\\ref{tab:products}); product weights from the 1987 input--output study and the 1993 World Bank study, products consolidated into 22 minor branches by index averages because no archival late-1980s output valuation survives for Latvia; branch weights from the 1990 benchmark", "A.2"),
   c("Construction", "Weighted index of material inputs into construction, 1987 input--output weights, following the CIA procedure", "A.3"),
   c("Transport and communications", "Freight tonne-kilometres and passenger-kilometres, all modes; postal, telegraph and telephone traffic and radio and television sets; 1945--50 from the Russian State Archive of the Economy; 1941--4 assumed to move with the rest of the economy; 1990s from sectoral employment", "A.4"),
   c("Trade, accommodation and catering", "Soviet retail and wholesale turnover indices at comparable prices (the only value series used), chained across base-year changes; early post-war years from the USSR domestic-trade compendia", "A.5"),
@@ -670,7 +670,7 @@ t2_rows <- list(
   c("Public administration, health, education, science", "Employment by branch from Soviet yearbooks, the Ostland statistical bulletins and World Bank studies; 1941--4, 1946--9 and 1951--4 gaps interpolated", "A.6"),
   c("Defence", "Soviet garrison of 30,000 in 1940 and 80,000 in 1990 plus the republican forces and police of 1940; 1941--89 interpolated between the 1940 and 1990 totals in step with public-administration employment; 1991--5 from the withdrawal schedule and the new Latvian forces", "A.6"),
   c("Other services", "Employment", "A.6"),
-  c("Population", "Year-end estimates and censuses of 1935, 1959, 1970, 1979 and 1989; wartime and deportation losses from the demographic literature; Soviet garrison added in 1940--1; present-day borders from 1945", "A.7")
+  c("Population", "Year-end estimates and censuses of 1920, 1925, 1930, 1935, 1959, 1970, 1979 and 1989; wartime and deportation losses from the demographic literature; Soviet garrison added in 1940--1; present-day borders from 1945", "A.7")
 )
 t2_body <- sapply(t2_rows, function(r) sprintf("%s & %s & %s \\\\", r[1], r[2], r[3]))
 t2 <- c("% tab:sources",
@@ -895,7 +895,7 @@ t15 <- tex_table("tab:beta",
   t15_body,
   paste0("\\textit{Notes:} ordinary least squares regressions of the compound annual growth of GDP per capita (per cent) on the natural ",
          "logarithm of initial GDP per capita, \\intlnineteen{}, across European economies; standard errors in parentheses. ",
-         "Socialist economies in column (b): Albania, Bulgaria, Czechoslovakia, Hungary, Poland, Romania, the USSR, Yugoslavia and ",
+         "Socialist economies in column (b): Bulgaria, Czechoslovakia, Hungary, Poland, Romania, the USSR, Yugoslavia and ",
          "the three Baltic states; Germany is omitted from (b). Spain enters (a) and (b) with 1935 in place of 1938 because of the civil war. ",
          "One observation per economy: before 1989 the Soviet Union, Yugoslavia and Czechoslovakia enter and their member or successor states ",
          "do not, except the three Baltic states; from 1989 the successor states enter and the aggregates do not. Residuals are in percentage ",
