@@ -154,6 +154,18 @@ body = body.replace(/\\cmidrule(\([^)]*\))?\{[^}]*\}/g, '')
            .replace(/\\vspace\*?\{[^}]*\}|\\noindent/g, '');
 body = body.replace(/\\textsc\{([^}]*)\}/g, '$1')
            .replace(/\\addcontentsline\{[^}]*\}\{[^}]*\}\{[^}]*\}/g, '');
+// symbols typed as inline math ($-$, $\pm$, ${>}25$, $^{\dagger}$...) become plain text, so Word sets them in
+// Times New Roman rather than as equation objects; real variables ($w_i$, $R^2$) stay as equations
+const mathSym = { '-': '−', '+': '+', '\\pm': '±', '\\times': '×', '>': '>', '<': '<', '{>}': '>', '{<}': '<', '\\dagger': '†', '*': '*' };
+body = body.replace(/(?<!\\)\$((?:[^$\\]|\\[^$])+?)(?<!\\)\$/g, (m, inner) => {
+  const t = inner.trim();
+  if (t in mathSym) return mathSym[t];
+  const sup = t.match(/^\^\{?(\\mathrm\{([a-z])\}|\\dagger|\*)\}?$/);
+  if (sup) return `\\textsuperscript{${sup[2] || mathSym[sup[1]]}}`;
+  const num = t.match(/^\{([<>])\}(\d+)$/);
+  if (num) return num[1] + num[2];
+  return m;
+});
 // highlighted notes to the authors
 body = replaceCommand(body, 'authorcheck', c => `\n\nAUTHORCHECKZ ${c.trim()}\n\n`);
 
@@ -217,8 +229,9 @@ do { prev = body; body = body.replace(/@@CITE([^@]*)@@; @@CITE([^@]*)@@/g, '@@CI
 body = body.replace(/@@(T?)CITE([^@]*)@@/g, (_, t, s) => (t ? 'TCITEZ' : 'CITEZ') + hex(s) + 'Z');
 
 body = body.replace(/\{\\sloppy\\printbibliography(\[[^\]]*\])?\}|\\printbibliography(\[[^\]]*\])?/, (m) => {
-  const title = (m.match(/title=\{([^}]*)\}/) || [])[1] || 'Bibliography';
-  return `\\section*{${jeh ? title.toUpperCase() : title}}\n\nBIBLIOGRAPHYZ\n`;
+  // biblatex's heading ("References" in British English); both papers set section titles in capitals
+  const title = (m.match(/title=\{([^}]*)\}/) || [])[1] || 'References';
+  return `\\section*{${title.toUpperCase()}}\n\nBIBLIOGRAPHYZ\n`;
 });
 body = body.replace(/\\newpage/g, '');
 
