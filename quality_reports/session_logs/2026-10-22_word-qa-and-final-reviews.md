@@ -58,3 +58,9 @@ Both `latvia_tables.R` and `tables.R` read this file, and Norway and Switzerland
   - T8: Lithuania 56→66% of the Nordic average (1913→2023), matching the dissertation; Latvia 80→61, Estonia 70→61.
   - Text: Latvia §5:59 and the conclusion now say "only Lithuania has improved on its 1913 position". All other Nordic claims re-checked and still hold (1950–68 faster than the Nordics; Finland 1968–89 exceptional).
   - Both PDFs recompiled clean (72/68 pp). Word rebuilt with portable pandoc 3.6.4 (Estonia 178, Latvia 287 citation fields; +1 each for the new note citation).
+- 2026-10-22: review fixes applied (plan 2026-10-22_review-fixes.md), one pass per paper; reports in quality_reports/2026-10-22_{latvia,estonia}_review_fixes.md.
+  - Estonia: all 9 items fixed, including m12 (Harrison p.146) and m14 (Bolotin p.190 table 5).
+  - Latvia: 11 of 12 fixed. The two \authorcheck boxes are left for the author, because the dissertation doesn't resolve them.
+  - Latvia section headings now print numerals, to match the "Section II" cross-references.
+  - 2024: Estonia (17,677) is just below Latvia (17,725), so the "Latvia poorest" claims now cover 2010–23.
+  - PDFs clean (Estonia 72 pp, Latvia 69 pp); Word rebuilt.

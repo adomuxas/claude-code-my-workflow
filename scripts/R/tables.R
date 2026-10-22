@@ -418,7 +418,7 @@ t2_rows <- list(
   c("Forestry and fishing", "Timber removals and fish catch; timber for 1919--21 and fish for 1919--27 extrapolated from the crops-and-livestock index",
     "Timber removals and fish catch; 1941--4 interpolated", "A.1"),
   c("Industry", "Employment adjusted for real wages (no usable annual output data; Valge's current-price series cannot be deflated by branch)",
-    "101 physical product series in 11 branches; branch weights from the 1990 benchmark, product weights from 1986 archival output data (Estonian National Archives)", "A.2"),
+    "101 physical product series in 11 branches; branch weights from the 1990 benchmark (\\cite[190, table 5]{bolotin1992}), product weights from 1986 archival output data (Estonian National Archives)", "A.2"),
   c("Construction", "Domestic cement use (production plus net imports), as in Valge; 1919--21 from population",
     "Weighted index of material inputs (1987 Soviet input--output weights), following the CIA procedure", "A.3"),
   c("Transport and communications", "Railway passenger- and tonne-kilometres, merchant fleet tonnage, postal items, telegrams and telephone calls",
