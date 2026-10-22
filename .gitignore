@@ -55,3 +55,18 @@ CLAUDE.local.md
 # *.rds
 # output/**/*.rds
 *.bcf
+
+# Local source material and working folders (large, not shared via git)
+.claude/projects/
+Dissertation latex files/
+OCR/
+Papers/
+newsources/
+master_supporting_docs/estonia_paper_literature/
+master_supporting_docs/latvia_paper_literature/
+master_supporting_docs/source_papers/
+master_supporting_docs/template_papers/
+master_supporting_docs/PhD thesis Klimantas 2025 Economic growth in the Baltic states.pdf
+
+# Build transcript
+Paper/*/build_last.txt
